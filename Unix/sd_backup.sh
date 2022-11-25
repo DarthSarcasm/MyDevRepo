@@ -41,12 +41,14 @@ fi
 diskutil unmountDisk /dev/$disk_id || error_exit "Error unounting disk"
 sudo dd if=/dev/$disk_id of=$HOME/Downloads/$image_name || error_exit "Error creating image"
 
-# Compress the final image, if set - needs fixing...
-if [ "$compression" = "Y" ] || [ "$compression" = "y" ] compression
+# Compress the final image, if set.
+if [ "$compression" = "Y" ] || [ "$compression" = "y" ]
 then
 	echo "Compressing $image_name - Please Wait"
-	zip -X $(image_name).zip $image_name || error_exit "Unable to compress image"
+	zip -X $HOME/Downloads/$image_name.zip $HOME/Downloads/$image_name || error_exit "Unable to compress image"
 	echo "Compression complete"
+	# Delete the original image now it's compressed
+	rm $HOME/Downloads/$image_name
 fi
 
 # Did the thing, exit now.
