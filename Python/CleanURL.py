@@ -16,7 +16,8 @@ if numArgs == 2:
 elif numArgs < 2:
         redirect = clipboard.get()
 # Provided by Peter Hansen on StackOverflow:# http://stackoverflow.com/questions/1986059/grubers-url-regular-expression-in-python/1986151#1986151
-pat = r'\b(([\w-]+://?|www[.])[^\s()
+pat = "r'\b(([\w-]+://?|www[.])[^\s()"
+
 def url_code():
     console.clear()
 
@@ -28,7 +29,7 @@ def url_code():
     elif numArgs < 2:
         redirect = clipboard.get()
     # Provided by Peter Hansen on StackOverflow:# http://stackoverflow.com/questions/1986059/grubers-url-regular-expression-in-python/1986151#1986151
-    pat = r'\b(([\w-]+://?|www[.])[^\s()
+    pat = "r'\b(([\w-]+://?|www[.])[^\s()"
 
 def main():
     url_code()
