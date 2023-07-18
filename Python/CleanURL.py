@@ -1,9 +1,9 @@
 import re
 import string
-import console
+import console #TODO: needs fixing
 import urllib
 import sys
-import clipboard
+import clipboard # TODO: needs fixing
 import webbrowser
 
 console.clear()
