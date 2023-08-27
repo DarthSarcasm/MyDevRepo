@@ -1,8 +1,0 @@
-# Ansible playbook for building / updating AtlasPi from base os
-# Stage 1: configure and update base os
-# Stage 2: Install required software packages
-# Stage 3: Install base docker images
-# Stage 4: Configure tweaks to containers
-
-# MAKE SURE YOU HAVE A BASE OS INSTALL READY
-
