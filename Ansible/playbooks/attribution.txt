@@ -1,3 +1,7 @@
 Starter YML playbooks courtesy of technotim at https://github.com/techno-tim/launchpad
 
 apt / apt-dist / pihole-update / zsh
+
+Other yml playbooks courtesxy of Christian Lempa at https://github.com/ChristianLempa/boilerplates
+
+deploy-portainer / prune-docker
