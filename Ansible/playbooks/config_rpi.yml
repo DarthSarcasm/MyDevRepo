@@ -18,10 +18,12 @@
       file:
         path: /home/pi/bin
         state: directory
+        mode: '0644'
     - name: create log directory
       file:
         path: /home/pi/log
         state: directory
+        mode: '0644'
     - name: copy server admin files
       copy:
         src: "{{ item }}"
@@ -37,10 +39,10 @@
     - name: copy zsh config
       copy:
         src: "{{ item }}"
-        dest: /home/pi/bin
+        dest: /home/pi
         owner: pi
         group: pi
-        mode: '755'
+        mode: '644'
       with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
     - name: Create the auto update schedule
       ansible.builtin.cron:
