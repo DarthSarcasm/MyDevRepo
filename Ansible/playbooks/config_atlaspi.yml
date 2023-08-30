@@ -40,5 +40,29 @@
         dest: /home/pi/bin
         owner: pi
         group: pi
-        mode: '755'
+        mode: '644'
       with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
+    - name: Create the auto update schedule
+      ansible.builtin.cron:
+        name: "configure server_update.sh"
+        user: pi
+        weekday: "6"
+        minute: "0"
+        hour: "6"
+        job: "/home/pi/bin/server_update.sh>/home/pi/log/update.log 2>&1"
+    - name: create nas mount - Media directory
+      file:
+        path: /mnt/nas/Media
+        state: directory
+    - name: create nas mount - Public directory
+      file:
+        path: /mnt/nas/Public
+        state: directory
+    - name: copy CREDS files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi
+        owner: pi
+        group: pi
+        mode: '644'
+      with_fileglob: "~/Code/Unix/Pi_Files/Atlas/file_templates/.*CREDS"
