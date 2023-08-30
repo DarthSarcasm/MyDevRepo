@@ -1,0 +1,32 @@
+- name: Full set up of a new AtlasPi server from brass tacks
+  hosts: 192.168.4.201
+  become: yes
+  tasks:
+    - name: basic os upgrade
+      apt:
+        update_cache: yes
+        upgrade: 'yes'
+    - name: install required packages
+      apt:
+        name:
+          - zsh
+          - wget
+          - git
+        state: present
+        update_cache: true
+    - name: create bin directory
+      file:
+        path: /home/pi/bin
+        state: directory
+    - name: create log directory
+      file:
+        path: /home/pi/log
+        state: directory
+    - name: copy server admin files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi/bin
+        owner: pi
+        group: pi
+        mode: '755'
+      with_fileglob: "~/Code/Unix/Pi_Files/General/server_*"

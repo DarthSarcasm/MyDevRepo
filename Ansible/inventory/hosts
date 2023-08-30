@@ -1,6 +1,18 @@
-[rpi]
+[rpi_servers]
 192.168.4.201
 192.168.4.202
 
+[rpi_retro]
+192.168.4.151
+
 [ubuntu]
 192.168.4.203
+
+[rpi_servers:vars]
+ansible_ssh_user=pi
+
+[rpi_retro:vars]
+ansible_ssh_user=pi
+
+[ubuntu:vars]
+ansible_ssh_user=BigBrother
