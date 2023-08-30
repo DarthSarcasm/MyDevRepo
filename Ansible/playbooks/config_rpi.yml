@@ -30,3 +30,17 @@
         group: pi
         mode: '755'
       with_fileglob: "~/Code/Unix/Pi_Files/General/server_*"
+    - name: change user shell to zsh
+      user:
+        name: pi
+        shell: /usr/bin/zsh
+    - name: copy zsh config
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi/bin
+        owner: pi
+        group: pi
+        mode: '755'
+      with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
+
+   
