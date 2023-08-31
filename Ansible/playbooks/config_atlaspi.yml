@@ -2,56 +2,9 @@
   hosts: "{{ variable_host }}"
   become: yes
   tasks:
-    - name: basic os upgrade
-      apt:
-        update_cache: yes
-        upgrade: 'yes'
-    - name: install required packages
-      apt:
-        name:
-          - zsh
-          - wget
-          - git
-        state: present
-        update_cache: true
-    - name: create bin directory
-      file:
-        path: /home/pi/bin
-        state: directory
-        mode: '0644'
-    - name: create log directory
-      file:
-        path: /home/pi/log
-        state: directory
-        mode: '0644'
-    - name: copy server admin files
-      copy:
-        src: "{{ item }}"
-        dest: /home/pi/bin
-        owner: pi
-        group: pi
-        mode: '755'
-      with_fileglob: "~/Code/Unix/Pi_Files/General/server_*"
-    - name: change user shell to zsh
-      user:
-        name: pi
-        shell: /usr/bin/zsh
-    - name: copy zsh config
-      copy:
-        src: "{{ item }}"
-        dest: /home/pi
-        owner: pi
-        group: pi
-        mode: '644'
-      with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
-    - name: Create the auto update schedule
-      ansible.builtin.cron:
-        name: "configure server_update.sh"
-        user: pi
-        weekday: "6"
-        minute: "0"
-        hour: "6"
-        job: "/home/pi/bin/server_update.sh>/home/pi/log/update.log 2>&1"
+    # Make sure config_rpi.yml (Or manual setup) has been done first!
+    # TODO: change default password here
+    # Now we do the AtlasPi Specific changes
     - name: create nas mount - Media directory
       file:
         path: /mnt/nas/Media
@@ -84,3 +37,37 @@
           fstype: cifs
           opts: "credentials=/home/pi/.PLEXCREDS,uid=1000,gid=100,file_mode=0775,dir_mode=0775,vers=2.0"
           state: present
+    # TODO: install docker and images/containers
+    - name: copy AtlasPi admin files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi/bin
+        owner: pi
+        group: pi
+        mode: '755'
+      with_fileglob: "~/Code/Unix/Pi_Files/Atlas/*.sh"
+    - name: Configure transmission data cleanup
+      ansible.builtin.cron:
+        name: "configure bt_cleanup.sh"
+        user: pi
+        minute: "0"
+        hour: "8"
+        job: "/home/pi/bin/bt_cleanup.sh>/home/pi/log/btclean.log 2>&1"
+    - name: Configure CalibreWeb container bounce
+      ansible.builtin.cron:
+        name: "configure container_restart.sh"
+        user: pi
+        minute: "0"
+        hour: "3"
+        job: "/home/pi/bin/container_restart.sh>/home/pi/log/container-bounce.log 2>&1"
+    - name: Configure File movement script
+      ansible.builtin.cron:
+        name: "configure media_copy.sh"
+        user: pi
+        minute: "*/20"
+        job: "/home/pi/bin/media_copy.sh>/home/pi/log/media-move.log 2>&1"
+    # Final Steps go here: Change the hostnames and reboot the system.
+    - name: Set a hostname specifying strategy
+      ansible.builtin.hostname:
+        name: AtlasPi
+        use: debian

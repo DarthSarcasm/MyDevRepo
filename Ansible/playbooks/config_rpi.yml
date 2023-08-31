@@ -2,6 +2,7 @@
   hosts: "rpi_servers"
   become: yes
   tasks:
+    # Start tasks with the basic os upgrades
     - name: basic os upgrade
       apt:
         update_cache: yes
@@ -36,6 +37,7 @@
       user:
         name: pi
         shell: /usr/bin/zsh
+    #TODO: Install oh-my-zsh?
     - name: copy zsh config
       copy:
         src: "{{ item }}"
