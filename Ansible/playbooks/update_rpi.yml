@@ -1,0 +1,9 @@
+- name: Update existing rpi servers
+  hosts: "rpi_servers"
+  become: yes
+  tasks:
+    # Start tasks with the basic os upgrades
+    - name: basic os upgrade
+      apt:
+        update_cache: yes
+        upgrade: 'yes'

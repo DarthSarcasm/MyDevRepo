@@ -1,5 +1,5 @@
 - name: Basic set up of a new rpi with dist updates and basic installs
-  hosts: "rpi_servers"
+  hosts: "{{ variable_host }}"
   become: yes
   tasks:
     # Start tasks with the basic os upgrades
