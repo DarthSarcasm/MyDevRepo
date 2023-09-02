@@ -2,6 +2,9 @@
 192.168.4.201
 192.168.4.202
 
+[rpi_build]
+raspberrypi.local
+
 [rpi_retro]
 192.168.4.151
 
@@ -12,6 +15,9 @@
 ansible_ssh_user=pi
 
 [rpi_retro:vars]
+ansible_ssh_user=pi
+
+[rpi_build:vars]
 ansible_ssh_user=pi
 
 [ubuntu:vars]

@@ -19,12 +19,16 @@
       file:
         path: /home/pi/bin
         state: directory
-        mode: '0644'
+        owner: pi
+        group: pi
+        mode: '0774'
     - name: create log directory
       file:
         path: /home/pi/log
         state: directory
-        mode: '0644'
+        owner: pi
+        group: pi
+        mode: '0774'
     - name: copy server admin files
       copy:
         src: "{{ item }}"
