@@ -3,16 +3,17 @@ tap "homebrew/bundle"
 
 brew "ansible"
 brew "awscli"
+brew "ffmpeg"
 brew "git"
+brew "handbrake"
 brew "ipcalc"
 brew "mas"
+brew "mkvtoolnix"
+brew "mp4v2"
 brew "mosh"
 brew "python@3.10"
 brew "wget"
 brew "aws/tap/ec2-instance-selector"
-brew "ffmpeg"
-brew "mkvtoolnix"
-brew "mp4v2"
 
 cask "1Password"
 cask "airbuddy"
@@ -33,6 +34,10 @@ cask "transmit"
 cask "visual-studio-code"
 cask "vlc"
 cask "zoom"
+
+# AETHER ONLY
+# cask "airbuddy"
+# AETHER ONLY
 
 # SISYPHUS ONLY
 # cask "elgato-stream-deck"
@@ -56,7 +61,6 @@ mas "iMovie", id: 408981434
 mas "Instapaper Save", id: 1481302432
 mas "Keynote", id: 409183694
 mas "Logger", id: 1611554653
-mas "Magnet", id: 441258766
 mas "Moom", id: 419330170
 mas "Noir", id: 1592917505
 mas "Numbers", id: 409203825
@@ -69,5 +73,15 @@ mas "Shortery", id: 1594183810
 mas "Speedtest", id: 1153157709
 mas "Super Agent", id: 1568262835
 mas "Vinegar", id: 1591303229
-mas "WireGuard", id: 1451685025
 mas "Xcode", id: 497799835
+
+# AETHER ONLY
+# mas "WireGuard"
+# AETHER ONLY
+
+# SISYPHUS ONLY
+# mas "DaVinci Resolve"
+# mas "Due"
+# mas "Shapr3D"
+# mas "Transloader"
+# SISYPHUS ONLY
