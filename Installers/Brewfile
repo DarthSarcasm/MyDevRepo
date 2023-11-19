@@ -19,7 +19,6 @@ brew "aws/tap/ec2-instance-selector"
 
 # 'brew install --cask'
 cask "1Password"
-cask "airbuddy"
 cask "audio-hijack"
 cask "carbon-copy-cloner"
 cask "discord"
