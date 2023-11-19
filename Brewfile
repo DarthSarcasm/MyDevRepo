@@ -1,0 +1,50 @@
+tap "aws/tap"
+tap "homebrew/bundle"
+
+brew "ansible"
+brew "awscli"
+brew "git"
+brew "ipcalc"
+brew "mas"
+brew "mosh"
+brew "python@3.10"
+brew "wget"
+brew "aws/tap/ec2-instance-selector"
+
+cask "1Password"
+cask "audio-hijack"
+cask "fission"
+cask "visual-studio-code"
+cask "zoom"
+
+mas "1Blocker", id: 1365531024
+mas "1Password for Safari", id: 1569813296
+mas "Baking Soda", id: 1601151613
+mas "Be Focused Pro", id: 961632517
+mas "Controller", id: 1198176727
+mas "Data Jar", id: 1453273600
+mas "Dice", id: 1479250666
+mas "Disk Speed Test", id: 425264550
+mas "Drafts", id: 1435957248
+mas "Eat the Shorts", id: 1668012393
+mas "GarageBand", id: 682658836
+mas "HomePass", id: 1330266650
+mas "iMovie", id: 408981434
+mas "Instapaper Save", id: 1481302432
+mas "Keynote", id: 409183694
+mas "Logger", id: 1611554653
+mas "Magnet", id: 441258766
+mas "Moom", id: 419330170
+mas "Noir", id: 1592917505
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Parcel", id: 639968404
+mas "PCalc", id: 403504866
+mas "Photomator", id: 1444636541
+mas "Pixelmator Pro", id: 1289583905
+mas "Shortery", id: 1594183810
+mas "Speedtest", id: 1153157709
+mas "Super Agent", id: 1568262835
+mas "Vinegar", id: 1591303229
+mas "WireGuard", id: 1451685025
+mas "Xcode", id: 497799835
