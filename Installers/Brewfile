@@ -1,6 +1,8 @@
+# 'brew tap'
 tap "aws/tap"
 tap "homebrew/bundle"
 
+# 'brew install'
 brew "ansible"
 brew "awscli"
 brew "ffmpeg"
@@ -15,6 +17,7 @@ brew "python@3.10"
 brew "wget"
 brew "aws/tap/ec2-instance-selector"
 
+# 'brew install --cask'
 cask "1Password"
 cask "airbuddy"
 cask "audio-hijack"
@@ -50,6 +53,7 @@ cask "zoom"
 # mas "Transloader"
 # DESKTOP ONLY
 
+# 'mas install'
 mas "1Blocker", id: 1365531024
 mas "1Password for Safari", id: 1569813296
 mas "Baking Soda", id: 1601151613
