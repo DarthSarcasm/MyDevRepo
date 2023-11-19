@@ -17,6 +17,8 @@ brew "mp4v2"
 cask "1Password"
 cask "airbuddy"
 cask "audio-hijack"
+cask "carbon-copy-cloner"
+cask "discord"
 cask "fission"
 cask "iterm2"
 cask "hazel"
@@ -26,10 +28,17 @@ cask "onyx"
 cask "piezo"
 cask "setapp"
 cask "soundsource"
+cask "tor-browser"
 cask "transmit"
 cask "visual-studio-code"
 cask "vlc"
 cask "zoom"
+
+# SISYPHUS ONLY
+# cask "elgato-stream-deck"
+# cask "calibre"
+# cask "spamsieve"
+# SISYPHUS ONLY
 
 mas "1Blocker", id: 1365531024
 mas "1Password for Safari", id: 1569813296

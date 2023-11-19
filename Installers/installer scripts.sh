@@ -3,3 +3,6 @@
 
 # install xcode command line tools
 xcode-select –-install
+
+# install from the bundle file ~/Brewfile
+brew bundle install
