@@ -1,0 +1,34 @@
+rpi_servers:
+  hosts:
+    atlaspi:
+      ansible_host: 192.168.4.201
+    pihole:
+      ansible_host: 192.168.4.202
+  vars:
+    ansible_ssh_user: pi
+
+ubuntu_servers:
+  hosts:
+    prometheus:
+      ansible_host: 192.168.4.203
+  vars:
+    ansible_ssh_user: BigBrother
+
+rpi_build:
+  hosts:
+    retropi:
+      ansible_host: 192.168.4.151
+    test_bed:
+      ansible_host: raspberrypi.local
+  vars:
+    ansible_ssh_user: pi
+
+all_pi:
+  children:
+    rpi_servers:
+    rpi_build:
+
+all_servers:
+  children:
+    rpi_servers:
+    ubuntu_servers:
