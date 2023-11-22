@@ -1,5 +1,5 @@
 - name: Full set up of a new AtlasPi server from brass tacks
-  hosts: "{{ variable_host }}"
+  hosts: "atlaspi"
   become: yes
   tasks:
     # Make sure config_rpi.yml (Or manual setup) has been done first!

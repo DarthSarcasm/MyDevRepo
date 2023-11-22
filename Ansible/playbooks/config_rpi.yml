@@ -1,20 +1,27 @@
 - name: Basic set up of a new rpi with dist updates and basic installs
-  hosts: "{{ variable_host }}"
+  hosts: "rpi_build"
   become: yes
   tasks:
-    # Start tasks with the basic os upgrades
+    # Start tasks with the basic os upgrades and package install
     - name: basic os upgrade
       apt:
         update_cache: yes
         upgrade: 'yes'
-    - name: install required packages
+    - name: Install aptitude
       apt:
-        name:
+        name: aptitude
+        state: latest
+        update_cache: true
+    - name: install required system packages
+      apt:
+        pkg:
           - zsh
           - wget
           - git
-        state: present
+          - curl
+        state: latest
         update_cache: true
+    # Set up admin scripts / logging
     - name: create bin directory
       file:
         path: /home/pi/bin
@@ -35,13 +42,15 @@
         dest: /home/pi/bin
         owner: pi
         group: pi
-        mode: '755'
+        mode: '0755'
       with_fileglob: "~/Code/Unix/Pi_Files/General/server_*"
+    # Change shell to zsh and configure
     - name: change user shell to zsh
       user:
         name: pi
         shell: /usr/bin/zsh
-    #TODO: Install oh-my-zsh?
+    - name: Install oh-my-zsh
+      ansible.builtin.raw: sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
     - name: copy zsh config
       copy:
         src: "{{ item }}"
@@ -50,6 +59,7 @@
         group: pi
         mode: '644'
       with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
+    # Update Crontab with auto updates
     - name: Create the auto update schedule
       ansible.builtin.cron:
         name: "configure server_update.sh"
@@ -58,3 +68,11 @@
         minute: "0"
         hour: "6"
         job: "/home/pi/bin/server_update.sh>/home/pi/log/update.log 2>&1"
+    # Install and configure docker
+    - name: Install docker
+      ansible.builtin.raw: curl -sSL https://get.docker.com | sh
+    - name: fiddle the docker socket permission
+      ansible.builtin.raw: sudo chmod 666 /var/run/docker.sock
+
+# TODO: Install Portainer & Watchtower as base containers
+# TODO: Change server name and default password (LAST STEP)
