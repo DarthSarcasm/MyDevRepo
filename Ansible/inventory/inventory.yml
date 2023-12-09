@@ -1,11 +1,11 @@
 rpi_servers:
   hosts:
     atlaspi:
-      ansible_host: 192.168.4.201
+      ansible_host: atlaspi.home
     pihole:
-      ansible_host: 192.168.4.202
+      ansible_host: pihole.home
     retropi:
-      ansible_host: 192.168.4.151
+      ansible_host: retropi.home
   vars:
     ansible_ssh_user: pi
 
