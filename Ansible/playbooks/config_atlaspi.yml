@@ -1,20 +1,44 @@
 - name: Full set up of a new AtlasPi server from brass tacks
-  hosts: "atlaspi"
+  hosts: "rpi_build"
   become: yes
   tasks:
-    # Make sure config_rpi.yml (Or manual setup) has been done first!
-    # TODO: change default password here
+    # Make sure build_rpi.yml (Or manual setup) has been done first!
     # Now we do the AtlasPi Specific changes
+
+    # First, do a pre-fiddling update
+    - name: Update packages with apt
+      when: ansible_pkg_mgr == 'apt'
+      apt:
+        update_cache: yes
+
+    - name: Upgrade packages with apt
+      when: ansible_pkg_mgr == 'apt'
+      apt:
+        upgrade: dist
+
+    # Install python and pip
+    - name: install required system packages
+      apt:
+        pkg:
+          - python3
+          - python3-pip
+        state: latest
+        update_cache: true
+
+    # Create the mount points for the NAS storage
     - name: create nas mount - Media directory
       file:
         path: /mnt/nas/Media
         state: directory
         mode: '0775'
+
     - name: create nas mount - Public directory
       file:
         path: /mnt/nas/Public
         state: directory
         mode: '0775'
+
+    # Copy the CRED file for login auth
     - name: copy CREDS files
       copy:
         src: "{{ item }}"
@@ -23,6 +47,8 @@
         group: pi
         mode: '644'
       with_fileglob: "~/Code/Unix/Pi_Files/Atlas/file_templates/.*CREDS"
+
+    # Time to mount the NAS drives
     - name: Configure Transmission Public Mount
         ansible.posix.mount:
           path: /mnt/nas/Public
@@ -30,6 +56,7 @@
           fstype: cifs
           opts: "credentials=/home/pi/.NASCREDS,uid=1000,gid=100,file_mode=0777,dir_mode=0777,vers=2.0"
           state: present
+
     - name: Configure Plex Media Mount
         ansible.posix.mount:
           path: /mnt/nas/Media
@@ -37,7 +64,8 @@
           fstype: cifs
           opts: "credentials=/home/pi/.PLEXCREDS,uid=1000,gid=100,file_mode=0775,dir_mode=0775,vers=2.0"
           state: present
-    # TODO: install docker and images/containers
+
+    # Copy atlas script files
     - name: copy AtlasPi admin files
       copy:
         src: "{{ item }}"
@@ -46,6 +74,8 @@
         group: pi
         mode: '755'
       with_fileglob: "~/Code/Unix/Pi_Files/Atlas/*.sh"
+
+    # Configure the admin scripts in cron
     - name: Configure transmission data cleanup
       ansible.builtin.cron:
         name: "configure bt_cleanup.sh"
@@ -53,6 +83,7 @@
         minute: "0"
         hour: "8"
         job: "/home/pi/bin/bt_cleanup.sh>/home/pi/log/btclean.log 2>&1"
+
     - name: Configure CalibreWeb container bounce
       ansible.builtin.cron:
         name: "configure container_restart.sh"
@@ -60,14 +91,49 @@
         minute: "0"
         hour: "3"
         job: "/home/pi/bin/container_restart.sh>/home/pi/log/container-bounce.log 2>&1"
+
     - name: Configure File movement script
       ansible.builtin.cron:
         name: "configure media_copy.sh"
         user: pi
         minute: "*/20"
         job: "/home/pi/bin/media_copy.sh>/home/pi/log/media-move.log 2>&1"
+
+    # Install and configure docker
+    - name: Install docker
+      ansible.builtin.raw: curl -sSL https://get.docker.com | sh
+
+    - name: fiddle the docker socket permission
+      ansible.builtin.raw: sudo chmod 666 /var/run/docker.sock
+
+    # TODO: Install docker api with python
+
+    # Install Portainer
+    - name: deploy portainer-ce latest
+      hosts: "{{ hosts }}"
+      become: yes
+      become_user: "{{ lookup('env','USER') }}"
+      tasks:
+      - name: create new volume
+        community.docker.docker_volume:
+          name: portainer-data
+      - name: deploy portainer
+        community.docker.docker_container:
+          name: portainer
+          image: "docker.io/portainer/portainer-ce"
+          ports:
+            - "9443:9443"
+          volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - portainer-data:/data
+          restart_policy: unless-stopped
+
+    # TODO: Install Watchtower
+    
     # Final Steps go here: Change the hostnames and reboot the system.
     - name: Set a hostname specifying strategy
       ansible.builtin.hostname:
         name: AtlasPi
         use: debian
+    
+     # TODO: change default password here
