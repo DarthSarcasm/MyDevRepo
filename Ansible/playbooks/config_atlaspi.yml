@@ -106,29 +106,36 @@
     - name: fiddle the docker socket permission
       ansible.builtin.raw: sudo chmod 666 /var/run/docker.sock
 
-    # TODO: Install docker api with python
+    # Install docker api with python3-pip
+    - name: Install docker api
+      ansible.builtin.raw: pip install docker
 
     # Install Portainer
-    - name: deploy portainer-ce latest
-      hosts: "{{ hosts }}"
-      become: yes
-      become_user: "{{ lookup('env','USER') }}"
-      tasks:
-      - name: create new volume
-        community.docker.docker_volume:
-          name: portainer-data
-      - name: deploy portainer
-        community.docker.docker_container:
-          name: portainer
-          image: "docker.io/portainer/portainer-ce"
-          ports:
-            - "9443:9443"
-          volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - portainer-data:/data
-          restart_policy: unless-stopped
+    - name: create new volume
+      community.docker.docker_volume:
+        name: portainer-data
+    
+    - name: deploy portainer
+      community.docker.docker_container:
+        name: portainer
+        image: "portainer/portainer-ce:latest"
+        ports:
+          - "9000:9000"
+          - "8000:8000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer-data:/data
+        restart_policy: always
 
-    # TODO: Install Watchtower
+    # Install Watchtower
+    - name: Deploy Watchtower
+      community.docker.docker_container:
+        name: watchtower
+        image: "containrrr/watchtower:latest"
+        command: --schedule "0 0 4 * * *" --debug
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        restart_policy: always
     
     # Final Steps go here: Change the hostnames and reboot the system.
     - name: Set a hostname specifying strategy
