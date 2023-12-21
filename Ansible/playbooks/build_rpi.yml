@@ -6,12 +6,14 @@
     - name: basic os upgrade
       apt:
         update_cache: yes
-        upgrade: 'yes'
+        upgrade: dist
+
     - name: Install aptitude
       apt:
         name: aptitude
         state: latest
         update_cache: true
+
     - name: install required system packages
       apt:
         pkg:
@@ -21,6 +23,7 @@
           - curl
         state: latest
         update_cache: true
+
     # Set up admin scripts / logging
     - name: create bin directory
       file:
@@ -29,6 +32,7 @@
         owner: pi
         group: pi
         mode: '0774'
+
     - name: create log directory
       file:
         path: /home/pi/log
@@ -36,6 +40,7 @@
         owner: pi
         group: pi
         mode: '0774'
+
     - name: copy server admin files
       copy:
         src: "{{ item }}"
@@ -44,13 +49,16 @@
         group: pi
         mode: '0755'
       with_fileglob: "~/Code/Unix/Pi_Files/General/server_*"
+
     # Change shell to zsh and configure
     - name: change user shell to zsh
       user:
         name: pi
         shell: /usr/bin/zsh
+
     - name: Install oh-my-zsh
       ansible.builtin.raw: sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+
     - name: copy zsh config
       copy:
         src: "{{ item }}"
@@ -59,6 +67,7 @@
         group: pi
         mode: '644'
       with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
+      
     # Update Crontab with auto updates
     - name: Create the auto update schedule
       ansible.builtin.cron:

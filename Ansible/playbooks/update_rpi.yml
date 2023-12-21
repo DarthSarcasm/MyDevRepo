@@ -6,4 +6,4 @@
     - name: basic os upgrade
       apt:
         update_cache: yes
-        upgrade: 'yes'
+        upgrade: dist

@@ -6,16 +6,11 @@
     # Now we do the AtlasPi Specific changes
 
     # First, do a pre-fiddling update
-    - name: Update packages with apt
-      when: ansible_pkg_mgr == 'apt'
+    - name: basic os upgrade
       apt:
         update_cache: yes
-
-    - name: Upgrade packages with apt
-      when: ansible_pkg_mgr == 'apt'
-      apt:
         upgrade: dist
-
+        
     # Install python and pip
     - name: install required system packages
       apt:
