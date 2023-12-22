@@ -1,10 +1,8 @@
 - name: Install and cofigure zsh
   hosts: "rpi_build"
-  become: yes
   tasks:
     # Make sure Zsh is installed
     - name: Install ZSH
-      become: yes
       apt:
         name: zsh
         state: latest
@@ -18,7 +16,7 @@
     # This bit doesn't work!! Need to fix
     - name: Install oh-my-zsh
       shell:
-        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
     - name: copy zsh config
       copy:
