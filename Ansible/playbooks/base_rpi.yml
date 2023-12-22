@@ -10,6 +10,7 @@
           - wget
           - git
           - curl
+          - mosh
         state: latest
         update_cache: true
 

@@ -35,4 +35,4 @@
     # Run docker compose to set up the new containers
     - name: Deploy the monitor containers
       shell:
-        cmd: 'docker compose -f monitor-compose.yml up'
+        cmd: docker compose -f monitor_compose.yml up
