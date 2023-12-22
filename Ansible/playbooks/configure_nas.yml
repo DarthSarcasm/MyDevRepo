@@ -1,18 +1,9 @@
-- name: Full set up of a new AtlasPi server from brass tacks
+- name: Configure the NAS connectivity for Atlas
   hosts: "rpi_build"
   become: yes
   tasks:
     # Make sure build_rpi.yml (Or manual setup) has been done first!
     # Now we do the AtlasPi Specific changes
-
-   # Install python and pip
-    - name: install required system packages
-      apt:
-        pkg:
-          - python3
-          - python3-pip
-        state: latest
-        update_cache: true
 
     # Create the mount points for the NAS storage
     - name: create nas mount - Media directory
@@ -35,7 +26,7 @@
         owner: pi
         group: pi
         mode: '644'
-      with_fileglob: "~/Code/Unix/Pi_Files/Atlas/file_templates/.*CREDS"
+      with_fileglob: "{{ scripts }}/file_templates/.*CREDS"
 
     # Time to mount the NAS drives
     - name: Configure Transmission Public Mount
@@ -62,7 +53,7 @@
         owner: pi
         group: pi
         mode: '755'
-      with_fileglob: "~/Code/Unix/Pi_Files/Atlas/*.sh"
+      with_fileglob: "{{ scripts }}/*.sh"
 
     # Configure the admin scripts in cron
     - name: Configure transmission data cleanup
@@ -87,49 +78,3 @@
         user: pi
         minute: "*/20"
         job: "/home/pi/bin/media_copy.sh>/home/pi/log/media-move.log 2>&1"
-
-    # Install and configure docker
-    - name: Install docker
-      ansible.builtin.raw: curl -sSL https://get.docker.com | sh
-
-    - name: fiddle the docker socket permission
-      ansible.builtin.raw: sudo chmod 666 /var/run/docker.sock
-
-    # Install docker api with python3-pip
-    - name: Install docker api
-      ansible.builtin.raw: pip install docker
-
-    # Install Portainer
-    - name: create new volume
-      community.docker.docker_volume:
-        name: portainer-data
-    
-    - name: deploy portainer
-      community.docker.docker_container:
-        name: portainer
-        image: "portainer/portainer-ce:latest"
-        ports:
-          - "9000:9000"
-          - "8000:8000"
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - portainer-data:/data
-        restart_policy: always
-
-    # Install Watchtower
-    - name: Deploy Watchtower
-      community.docker.docker_container:
-        name: watchtower
-        image: "containrrr/watchtower:latest"
-        command: --schedule "0 0 4 * * *" --debug
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-        restart_policy: always
-    
-    # Final Steps go here: Change the hostnames and reboot the system.
-    - name: Set a hostname specifying strategy
-      ansible.builtin.hostname:
-        name: AtlasPi
-        use: debian
-    
-     # TODO: change default password here
