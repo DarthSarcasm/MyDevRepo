@@ -1,6 +1,5 @@
 - name: Build the Atlas Docker stack
   hosts: "rpi_build"
-  become: yes
   tasks:
    # Install python
     - name: install Python3

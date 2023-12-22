@@ -1,17 +1,34 @@
 - name: Build the Atlas Docker stack
   hosts: "rpi_build"
   tasks:
+    # Create a working directory
+    - name: create work directory
+      file:
+        path: /home/pi/work
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0774'
+
     # Copy compose files
     - name: copy compose files
       copy:
         src: "{{ item }}"
-        dest: /home/pi
+        dest: /home/pi/work
         owner: pi
         group: pi
         mode: '0755'
       with_fileglob: "{{ compose }}/*_compose.yml"
 
-    # TODO: Copy the remaining config files - Prometheus, Transmission.
+    # Copy template files
+    - name: copy template files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi/work
+        owner: pi
+        group: pi
+        mode: '0755'
+      with_fileglob: "{{ template }}/*.*"
 
     # Create the needed volumes for the monitor_compose
     - name: create Grafana Volume
@@ -35,9 +52,17 @@
     # Run docker compose to set up the new containers
     - name: Deploy the monitor containers
       shell:
-        cmd: docker compose -f monitor_compose.yml up
+        cmd: docker compose -f /home/pi/work/monitor_compose.yml up
 
-    # TODO: docker compose for services and media.
+    # Run docker compose to set up the new containers
+    - name: Deploy the service containers
+      shell:
+        cmd: docker compose -f /home/pi/work/service_compose.yml up
+
+    # Run docker compose to set up the new containers
+    - name: Deploy the media containers
+      shell:
+        cmd: docker compose -f /home/pi/work/media_compose.yml up
 
     # TODO: update container files for transmission
     # TODO: Restore backups of homebridge, grafana and uptime kuma.
