@@ -11,7 +11,7 @@
         mode: '0755'
       with_fileglob: "{{ compose }}/*_compose.yml"
 
-    # TODO: Copy the remaining config files
+    # TODO: Copy the remaining config files - Prometheus, Transmission.
 
     # Create the needed volumes for the monitor_compose
     - name: create Grafana Volume
@@ -36,3 +36,8 @@
     - name: Deploy the monitor containers
       shell:
         cmd: docker compose -f monitor_compose.yml up
+
+    # TODO: docker compose for services and media.
+
+    # TODO: update container files for transmission
+    # TODO: Restore backups of homebridge, grafana and uptime kuma.
