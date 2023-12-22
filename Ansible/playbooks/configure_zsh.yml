@@ -14,7 +14,7 @@
         name: pi
         shell: /usr/bin/zsh
 
-    # This bit doesn't work!! Need to fix
+    # Install oh-my-zsh (now works)
     - name: Install oh-my-zsh
       shell:
         cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

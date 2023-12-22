@@ -1,40 +1,38 @@
 - name: Build the Atlas Docker stack
   hosts: "rpi_build"
   tasks:
-    # Install Portainer
-    - name: create new volume
-      community.docker.docker_volume:
-        name: portainer-data
-    
-    - name: deploy portainer
-      community.docker.docker_container:
-        name: portainer
-        image: "portainer/portainer-ce:latest"
-        ports:
-          - "9000:9000"
-          - "8000:8000"
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - portainer-data:/data
-        restart_policy: always
+    # Copy compose files
+    - name: copy compose files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi
+        owner: pi
+        group: pi
+        mode: '0755'
+      with_fileglob: "{{ compose }}/*_compose.yml"
 
-    # Install Watchtower
-    - name: Deploy Watchtower
-      community.docker.docker_container:
-        name: watchtower
-        image: "containrrr/watchtower:latest"
-        command: --schedule "0 0 4 * * *" --debug
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-        restart_policy: always
-    
-    # Install Node-exporter
-    - name: Deploy node-exporter
-      community.docker.docker_container:
-        name: node-exporter
-        image: "quay.io/prometheus/node-exporter:latest"
-        command: --path.rootfs=/host
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - /:/host
-        restart_policy: always
+    # TODO: Copy the remaining config files
+
+    # Create the needed volumes for the monitor_compose
+    - name: create Grafana Volume
+      community.docker.docker_volume:
+        name: grafana-storage
+        recreate: never
+        state: present
+
+    - name: create Prometheus Volume
+      community.docker.docker_volume:
+        name: prometheus-storage
+        recreate: never
+        state: present
+
+    - name: create Uptime-Kuma Volume
+      community.docker.docker_volume:
+        name: uptime-kuma
+        recreate: never
+        state: present
+
+    # Run docker compose to set up the new containers
+    - name: Deploy the monitor containers
+      shell:
+        cmd: 'docker compose -f monitor-compose.yml up'
