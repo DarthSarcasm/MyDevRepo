@@ -1,18 +1,16 @@
 - name: Configure the NAS connectivity for Atlas
   hosts: "rpi_build"
-  become: yes
   tasks:
-    # Make sure build_rpi.yml (Or manual setup) has been done first!
-    # Now we do the AtlasPi Specific changes
-
     # Create the mount points for the NAS storage
     - name: create nas mount - Media directory
+      become: yes
       file:
         path: /mnt/nas/Media
         state: directory
         mode: '0775'
 
     - name: create nas mount - Public directory
+      become: yes
       file:
         path: /mnt/nas/Public
         state: directory
@@ -28,22 +26,24 @@
         mode: '644'
       with_fileglob: "{{ scripts }}/file_templates/.*CREDS"
 
-    # Time to mount the NAS drives
+    # Time to mount the NAS drives - needs a server reboot to make it work.
     - name: Configure Transmission Public Mount
-        ansible.posix.mount:
-          path: /mnt/nas/Public
-          src: //192.168.4.200/Public
-          fstype: cifs
-          opts: "credentials=/home/pi/.NASCREDS,uid=1000,gid=100,file_mode=0777,dir_mode=0777,vers=2.0"
-          state: present
+      become: yes
+      ansible.posix.mount:
+        path: /mnt/nas/Public
+        src: //192.168.4.200/Public
+        fstype: cifs
+        opts: "credentials=/home/pi/.NASCREDS,uid=1000,gid=100,file_mode=0777,dir_mode=0777,vers=2.0"
+        state: present
 
     - name: Configure Plex Media Mount
-        ansible.posix.mount:
-          path: /mnt/nas/Media
-          src: //192.168.4.200/MediaContent
-          fstype: cifs
-          opts: "credentials=/home/pi/.PLEXCREDS,uid=1000,gid=100,file_mode=0775,dir_mode=0775,vers=2.0"
-          state: present
+      become: yes
+      ansible.posix.mount:
+        path: /mnt/nas/Media
+        src: //192.168.4.200/MediaContent
+        fstype: cifs
+        opts: "credentials=/home/pi/.PLEXCREDS,uid=1000,gid=100,file_mode=0775,dir_mode=0775,vers=2.0"
+        state: present
 
     # Copy atlas script files
     - name: copy AtlasPi admin files
@@ -78,3 +78,4 @@
         user: pi
         minute: "*/20"
         job: "/home/pi/bin/media_copy.sh>/home/pi/log/media-move.log 2>&1"
+

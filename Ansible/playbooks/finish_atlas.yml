@@ -1,0 +1,10 @@
+- name: Finalise the atlas build
+  hosts: "rpi_build"
+  tasks:
+    # Final Steps go here: Change the hostnames and reboot the system.
+    - name: Set a hostname specifying strategy
+      ansible.builtin.hostname:
+        name: AtlasPi
+        use: debian
+    
+     # TODO: change default password here

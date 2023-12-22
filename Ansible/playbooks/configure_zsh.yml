@@ -9,6 +9,7 @@
 
     # Change shell to zsh and configure
     - name: change user shell to zsh
+      become: yes
       user:
         name: pi
         shell: /usr/bin/zsh
