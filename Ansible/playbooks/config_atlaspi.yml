@@ -5,13 +5,7 @@
     # Make sure build_rpi.yml (Or manual setup) has been done first!
     # Now we do the AtlasPi Specific changes
 
-    # First, do a pre-fiddling update
-    - name: basic os upgrade
-      apt:
-        update_cache: yes
-        upgrade: dist
-        
-    # Install python and pip
+   # Install python and pip
     - name: install required system packages
       apt:
         pkg:

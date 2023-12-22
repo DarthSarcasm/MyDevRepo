@@ -2,21 +2,10 @@
   hosts: "rpi_build"
   become: yes
   tasks:
-    # Start tasks with the basic os upgrades and package install
-    - name: basic os upgrade
-      apt:
-        update_cache: yes
-        upgrade: dist
-
-    - name: Install aptitude
-      apt:
-        name: aptitude
-        state: latest
-        update_cache: true
-
     - name: install required system packages
       apt:
         pkg:
+          - aptitude
           - zsh
           - wget
           - git
@@ -48,26 +37,8 @@
         owner: pi
         group: pi
         mode: '0755'
-      with_fileglob: "~/Code/Unix/Pi_Files/General/server_*"
+      with_fileglob: "{{ scripts }}/server_*" # Path needs updating/fixing
 
-    # Change shell to zsh and configure
-    - name: change user shell to zsh
-      user:
-        name: pi
-        shell: /usr/bin/zsh
-
-    - name: Install oh-my-zsh
-      ansible.builtin.raw: sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-
-    - name: copy zsh config
-      copy:
-        src: "{{ item }}"
-        dest: /home/pi
-        owner: pi
-        group: pi
-        mode: '644'
-      with_fileglob: "~/Code/Unix/Pi_Files/General/config/.z*"
-      
     # Update Crontab with auto updates
     - name: Create the auto update schedule
       ansible.builtin.cron:

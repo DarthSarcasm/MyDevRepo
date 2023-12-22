@@ -1,5 +1,5 @@
 - name: Update existing rpi servers
-  hosts: "rpi_servers"
+  hosts: "rpi_build"
   become: yes
   tasks:
     # Start tasks with the basic os upgrades
