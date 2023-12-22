@@ -28,3 +28,13 @@
           - /var/run/docker.sock:/var/run/docker.sock
         restart_policy: always
     
+    # Install Node-exporter
+    - name: Deploy node-exporter
+      community.docker.docker_container:
+        name: node-exporter
+        image: "quay.io/prometheus/node-exporter:latest"
+        command: --path.rootfs=/host
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /:/host
+        restart_policy: always

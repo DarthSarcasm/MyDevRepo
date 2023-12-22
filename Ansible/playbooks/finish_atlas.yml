@@ -8,3 +8,5 @@
         use: debian
     
      # TODO: change default password here
+
+     # TODO: Last step - server reboot to update hosts and redo mount points
