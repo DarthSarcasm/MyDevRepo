@@ -3,6 +3,7 @@
   tasks:
    # Install python
     - name: install Python3
+      become: yes
       apt:
         name: python3
         state: latest
@@ -10,6 +11,7 @@
 
    # Install PIP
     - name: install python3-pip
+      become: yes
       apt:
         name: python3-pip
         state: latest
@@ -17,6 +19,7 @@
 
    # Install docker SDK
     - name: install python3-docker
+      become: yes
       apt:
         name: python3-docker
         state: latest
