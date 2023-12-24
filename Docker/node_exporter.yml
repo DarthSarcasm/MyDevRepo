@@ -1,27 +1,9 @@
+version: "3.6"
 services:
   node_exporter:
-    command:
-      - "--path.rootfs=/host"
-    container_name: "node_exporter"
-    entrypoint:
-      - "/bin/node_exporter"
-    environment:
-      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     expose:
       - "9100/tcp"
-    hostname: "atlaspi"
     image: "quay.io/prometheus/node-exporter:latest"
-    ipc: "private"
-    labels:
-      maintainer: "The Prometheus Authors <prometheus-developers@googlegroups.com>"
-    logging:
-      driver: "json-file"
-      options: {}
-    network_mode: "host"
     restart: "unless-stopped"
-    security_opt:
-      - "label=disable"
-    user: "nobody"
     volumes:
       - "/:/host:ro"
-version: "3.6"

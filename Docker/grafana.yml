@@ -1,75 +1,12 @@
+version: "3.6"
 services:
   grafana:
-
-    cap_drop:
-      - "AUDIT_CONTROL"
-      - "BLOCK_SUSPEND"
-      - "DAC_READ_SEARCH"
-      - "IPC_LOCK"
-      - "IPC_OWNER"
-      - "LEASE"
-      - "LINUX_IMMUTABLE"
-      - "MAC_ADMIN"
-      - "MAC_OVERRIDE"
-      - "NET_ADMIN"
-      - "NET_BROADCAST"
-      - "SYSLOG"
-      - "SYS_ADMIN"
-      - "SYS_BOOT"
-      - "SYS_MODULE"
-      - "SYS_NICE"
-      - "SYS_PACCT"
-      - "SYS_PTRACE"
-      - "SYS_RAWIO"
-      - "SYS_RESOURCE"
-      - "SYS_TIME"
-      - "SYS_TTY_CONFIG"
-      - "WAKE_ALARM"
-
-    container_name: "grafana"
-
-    entrypoint:
-      - "/run.sh"
-
-    environment:
-      - "PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-      - "GF_PATHS_CONFIG=/etc/grafana/grafana.ini"
-      - "GF_PATHS_DATA=/var/lib/grafana"
-      - "GF_PATHS_HOME=/usr/share/grafana"
-      - "GF_PATHS_LOGS=/var/log/grafana"
-      - "GF_PATHS_PLUGINS=/var/lib/grafana/plugins"
-      - "GF_PATHS_PROVISIONING=/etc/grafana/provisioning"
-
-    hostname: "4f012222c855"
-
     image: "grafana/grafana:main"
-
-    ipc: "private"
-
-    labels:
-      maintainer: "Grafana Labs <hello@grafana.com>"
-
-    logging:
-      driver: "json-file"
-      options: {}
-
-    mac_address: "02:42:ac:11:00:03"
-
-    network_mode: "bridge"
-
     ports:
       - "3456:3000/tcp"
-
     restart: "unless-stopped"
-
-    user: "472"
-
     volumes:
       - "grafana-storage:/var/lib/grafana"
-
-    working_dir: "/usr/share/grafana"
-
-version: "3.6"
 
 volumes:
   grafana-storage:
