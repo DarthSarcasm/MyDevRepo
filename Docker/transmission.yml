@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   transmission:
-    image: "ghcr.io/linuxserver/transmission:3.00-r8-ls151"
+    image: "ghcr.io/linuxserver/transmission:latest"
     ports:
       - "51413:51413/tcp"
       - "51413:51413/udp"

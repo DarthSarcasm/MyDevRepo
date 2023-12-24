@@ -1,0 +1,26 @@
+- name: Deploy Homelab containers
+  hosts: "rpi_build"
+  tasks:
+    # Deploy the calibreweb volume and container
+    - name: create Calibreweb Volume
+      community.docker.docker_volume:
+        name: calibreweb-config
+        recreate: never
+        state: present
+
+    # Deploy The Default Containers!    
+    - name: deploy calibreweb container
+      community.docker.docker_container:
+        name: calibreweb
+        image: "ghcr.io/linuxserver/calibre-web:latest"
+        ports:
+          - "8083:8083"
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "calibreweb-config:/config"
+#         - "/home/pi/.config/appdata/calibreweb:/config"
+          - "/home/pi/storage:/storage"
+          - "/mnt/nas/Media/Calibre Library:/books"
+        restart_policy: unless-stopped
+
+    # TODO: Restore backups of homebridge, grafana and uptime kuma.

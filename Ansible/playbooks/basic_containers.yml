@@ -1,13 +1,13 @@
-- name: Build the Atlas Docker stack
+- name: Deploy basic admin containers
   hosts: "rpi_build"
   tasks:
+    # Deploy the portainer volume and container
     - name: create Portainer Volume
       community.docker.docker_volume:
         name: portainer-data
         recreate: never
         state: present
 
-    # Deploy The Default Containers!    
     - name: deploy portainer
       community.docker.docker_container:
         name: portainer
@@ -20,7 +20,7 @@
           - portainer-data:/data
         restart_policy: always
 
-    # Install Watchtower
+    # Deploy Watchtower
     - name: Deploy Watchtower
       community.docker.docker_container:
         name: watchtower
