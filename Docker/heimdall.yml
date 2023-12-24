@@ -1,16 +1,12 @@
----
-version: "2.1"
+version: "3.6"
 services:
   heimdall:
-    image: lscr.io/linuxserver/heimdall:latest
-    container_name: heimdall
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-    volumes:
-      - /path/to/appdata/config:/config
+    image: "ghcr.io/linuxserver/heimdall:latest"
     ports:
-      - 80:80
-      - 443:443
-    restart: unless-stopped
+      - "447:443/tcp"
+      - "8002:80/tcp"
+    restart: "unless-stopped"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/pi/.config/appdata/heimdall:/config"
+      - "/home/pi/storage:/storage"

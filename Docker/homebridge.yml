@@ -1,0 +1,13 @@
+version: "3.6"
+services:
+  homebridge:
+    expose:
+      - "8581/tcp"
+    image: "oznu/homebridge:latest"
+    restart: "always"
+    volumes:
+      - "homebridge-config:/homebridge"
+
+volumes:
+  homebridge-config:
+    external: true
