@@ -19,7 +19,7 @@ ansible-playbook -i $ANSIBLE_INVENTORY -e "scripts='$UNIX_SCRIPT_PATH/General'" 
 
 # Do the Atlas Stuff
 ansible-playbook -i $ANSIBLE_INVENTORY -e "scripts='$UNIX_SCRIPT_PATH/Atlas' " $ANSIBLE_PLAYBOOKS/configure_nas.yml
-ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/configure_docker.yml
+ansible-playbook -i $ANSIBLE_INVENTORY -e "compose='$COMPOSE_PATH' template='$UNIX_SCRIPT_PATH/container_templates" $ANSIBLE_PLAYBOOKS/configure_docker.yml
 ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/basic_containers.yml
-ansible-playbook -i $ANSIBLE_INVENTORY -e "compose=$COMPOSE_PATH template=$UNIX_SCRIPT_PATH/Atlas/container_templates" $ANSIBLE_PLAYBOOKS/configure_containers.yml
-# ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/finish_atlas.yml
+#ansible-playbook -i $ANSIBLE_INVENTORY -e "compose=$COMPOSE_PATH template=$UNIX_SCRIPT_PATH/Atlas/container_templates" $ANSIBLE_PLAYBOOKS/configure_containers.yml
+ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/finish_atlas.yml

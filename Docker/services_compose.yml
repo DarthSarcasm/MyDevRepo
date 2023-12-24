@@ -275,4 +275,4 @@ services:
 
     working_dir: "/"
 
-version: "3.6"                                                                                                                                [18:54:06]
+version: "3.6"

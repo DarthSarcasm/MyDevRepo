@@ -33,3 +33,33 @@
     - name: fiddle the docker socket permission
       shell:
         cmd: sudo chmod 666 /var/run/docker.sock
+
+    # Create a working directory
+    - name: create work directory
+      file:
+        path: /home/pi/work
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0774'
+
+    # Copy compose files
+    - name: copy compose files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi/work
+        owner: pi
+        group: pi
+        mode: '0755'
+      with_fileglob: "{{ compose }}/*_compose.yml"
+
+    # Copy template files
+    - name: copy template files
+      copy:
+        src: "{{ item }}"
+        dest: /home/pi/work
+        owner: pi
+        group: pi
+        mode: '0755'
+      with_fileglob: "{{ template }}/*.*"
+
