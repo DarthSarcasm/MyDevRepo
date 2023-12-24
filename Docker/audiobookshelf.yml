@@ -9,3 +9,4 @@ services:
       - /mnt/nas/Media/Podcasts:/podcasts
       - /home/pi/.config/appdata/audiobookshelf:/config
       - /home/pi/.config/metadata/audiobookshelf:/metadata
+    restart: "unless-stopped"
