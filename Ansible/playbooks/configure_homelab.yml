@@ -55,12 +55,6 @@
         recreate: never
         state: present
 
-    - name: create homebridge storage Volume
-      community.docker.docker_volume:
-        name: homebridge-storage
-        recreate: never
-        state: present
-
     - name: create uptime-kuma data Volume
       community.docker.docker_volume:
         name: uptime-kuma-data

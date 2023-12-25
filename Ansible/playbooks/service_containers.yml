@@ -30,5 +30,5 @@
           - "/mnt/nas/Media/Calibre Library:/books"
         restart_policy: unless-stopped
 
-    # TODO: Add containers/volunmes for plex, tautulli, audiobookshelf
+    # TODO: Add containers/volunmes for plex, tautulli, audiobookshelf, jellyfin
     # TODO: Restore backups of homebridge, grafana and uptime kuma.
