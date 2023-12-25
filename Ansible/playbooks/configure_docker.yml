@@ -34,6 +34,10 @@
       shell:
         cmd: sudo chmod 666 /var/run/docker.sock
 
+    - name: add user to docker subgroup
+      shell:
+        cmd: sudo usermod -aG docker $USER
+
     - name: create Config directory
       file:
         path: /home/pi/Config
