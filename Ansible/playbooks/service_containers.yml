@@ -1,0 +1,34 @@
+- name: Deploy Service containers
+  hosts: "rpi_build"
+  tasks:
+    # Create any required pi level files
+
+    # Deploy required data volumes
+    - name: create Calibreweb config Volume
+      community.docker.docker_volume:
+        name: calibreweb-config
+        recreate: never
+        state: present
+
+    - name: create Calibreweb storage Volume
+      community.docker.docker_volume:
+        name: calibreweb-storage
+        recreate: never
+        state: present
+
+    # Deploy The Containers!    
+    - name: deploy calibreweb container
+      community.docker.docker_container:
+        name: calibreweb
+        image: "ghcr.io/linuxserver/calibre-web:latest"
+        ports:
+          - "8083:8083"
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "calibreweb-config:/config"
+          - "calibreweb-storage:/storage"
+          - "/mnt/nas/Media/Calibre Library:/books"
+        restart_policy: unless-stopped
+
+    # TODO: Add containers/volunmes for plex, tautulli, audiobookshelf
+    # TODO: Restore backups of homebridge, grafana and uptime kuma.
