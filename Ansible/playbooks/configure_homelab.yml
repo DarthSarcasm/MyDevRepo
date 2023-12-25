@@ -43,6 +43,30 @@
         recreate: never
         state: present
 
+    - name: create heimdall config Volume
+      community.docker.docker_volume:
+        name: heimdall-config
+        recreate: never
+        state: present
+
+    - name: create heimdall storage Volume
+      community.docker.docker_volume:
+        name: heimdall-storage
+        recreate: never
+        state: present
+
+    - name: create homebridge storage Volume
+      community.docker.docker_volume:
+        name: homebridge-storage
+        recreate: never
+        state: present
+
+    - name: create uptime-kuma data Volume
+      community.docker.docker_volume:
+        name: uptime-kuma-data
+        recreate: never
+        state: present
+
     # Deploy The Containers!    
     - name: deploy node_exporter
       community.docker.docker_container:
@@ -75,6 +99,16 @@
           - "grafana-storage:/var/lib/grafana"
         restart_policy: "unless-stopped"
 
+    - name: deploy uptime-kuma
+      community.docker.docker_container:
+        name: uptime-kuma
+        image: "louislam/uptime-kuma:1"
+        ports:
+          - "3001:3001/tcp"
+        volumes:
+          - "uptime-kuma-data:/app/data"
+        restart_policy: "always"
+
     - name: deploy transmission
       community.docker.docker_container:
         name: transmission
@@ -93,4 +127,26 @@
           - "/mnt/nas/Public/Downloads:/downloads"
         restart_policy: "unless-stopped"
 
-    # TODO: Add containers / volumes for heimdall and homebridge
+    - name: deploy heimdall
+      community.docker.docker_container:
+        name: heimdall
+        image: "ghcr.io/linuxserver/heimdall:latest"
+        ports:
+          - "447:443/tcp"
+          - "8002:80/tcp"
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "heimdall-config:/config"
+          - "heimdall-storage:/storage"
+        restart_policy: "unless-stopped"
+
+    - name: deploy homebridge
+      community.docker.docker_container:
+        name: homebridge
+        image: "oznu/homebridge:latest"
+        ports:
+          - "8581/tcp"
+        volumes:
+          - "homebridge-config:/homebridge"
+        restart_policy: "always"
+
