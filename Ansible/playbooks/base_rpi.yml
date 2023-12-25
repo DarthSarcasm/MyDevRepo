@@ -50,5 +50,13 @@
         hour: "6"
         job: "/home/pi/bin/server_update.sh>/home/pi/log/update.log 2>&1"
 
-# TODO: Update authorized keys file for both machines  - currently only mac mini connects
+    # Update authorized keys file
+    - name: copy authorized keys
+      copy:
+        src: "{{ scripts }}/.authorized_keys"
+        dest: /home/pi/bin
+        owner: pi
+        group: pi
+        mode: '0755'
+
 # Default pi build with default user and password now created. Hooray

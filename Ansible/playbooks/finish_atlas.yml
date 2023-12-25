@@ -2,13 +2,14 @@
   hosts: "rpi_build"
   become: yes
   tasks:
-    # Final Steps go here: Change the hostnames and reboot the system.
+    # Final Steps
+    # TODO: Change the hostnames and reboot the system.
     - name: Set a hostname specifying strategy
       ansible.builtin.hostname:
         name: AtlasPi
         use: debian
     
-    # TODO: change default password here
+    # TODO: change default password
 
     # TODO: Last step - server reboot to update hosts and redo mount points
     - name: reboot the server
