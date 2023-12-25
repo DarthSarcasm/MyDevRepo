@@ -1,8 +1,9 @@
 # Script to update / build atlaspi using ansible where possible.
 
-ANSIBLE_INVENTORY='/Volumes/T7/*Projects/Code/MyDevRepo/MyDevRepo/Ansible/inventory/inventory.yml'
-ANSIBLE_PLAYBOOKS='/Volumes/T7/*Projects/Code/MyDevRepo/MyDevRepo/Ansible/playbooks'
-UNIX_SCRIPT_PATH='/Volumes/T7/*Projects/Code/MyDevRepo/MyDevRepo/Unix/Pi_Files'
+REPO_DIR='/Volumes/T7/*Projects/Code/MyDevRepo/MyDevRepo'
+ANSIBLE_INVENTORY=$REPO_DIR/Ansible/inventory/inventory.yml
+ANSIBLE_PLAYBOOKS=$REPO_DIR/Ansible/playbooks
+UNIX_SCRIPT_PATH=$REPO_DIR/Unix/Pi_Files
 
 # Update the base image
 ansible-playbook -i $ANSIBLE_INVENTORY -e "hosts=rpi_build" $ANSIBLE_PLAYBOOKS/update_rpi.yml

@@ -17,9 +17,15 @@ ansible-playbook -i $ANSIBLE_INVENTORY -e "scripts='$UNIX_SCRIPT_PATH/General'" 
 
 # That's the default stuff done - now on to the tricky, Docker & NAS config...
 
-# Do the Atlas Stuff
+# Configure NAS connectivity and mount points
 ansible-playbook -i $ANSIBLE_INVENTORY -e "scripts='$UNIX_SCRIPT_PATH/Atlas' " $ANSIBLE_PLAYBOOKS/configure_nas.yml
-ansible-playbook -i $ANSIBLE_INVENTORY -e "compose='$COMPOSE_PATH' template='$UNIX_SCRIPT_PATH/container_templates" $ANSIBLE_PLAYBOOKS/configure_docker.yml
+# Install and configure Docker
+ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/configure_docker.yml
+# Deploy basic admin containers
 ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/basic_containers.yml
-#ansible-playbook -i $ANSIBLE_INVENTORY -e "compose=$COMPOSE_PATH template=$UNIX_SCRIPT_PATH/Atlas/container_templates" $ANSIBLE_PLAYBOOKS/configure_containers.yml
+# Deploy the homelab containers
+ansible-playbook -i $ANSIBLE_INVENTORY -e "template=$UNIX_SCRIPT_PATH/Atlas/container_templates" $ANSIBLE_PLAYBOOKS/configure_homelab.yml
+# Deploy the service containers
+ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/service_containers.yml
+# Last steps!
 ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/finish_atlas.yml
