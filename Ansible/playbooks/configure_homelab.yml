@@ -1,26 +1,96 @@
 - name: Deploy Homelab containers
   hosts: "rpi_build"
   tasks:
-    # Deploy the calibreweb volume and container
-    - name: create Calibreweb Volume
+    # Create any required pi level files
+    - name: create Prometheus directory
+      file:
+        path: /home/pi/Config/Prometheus
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0774'
+
+    - name: copy Prometheus config file
+      copy:
+        src: "{{ template }}/prometheus.yml"
+        dest: /home/pi/Config/Prometheus
+        owner: pi
+        group: pi
+        mode: '0755'
+
+    # Deploy required data volumes
+    - name: create Prometheus storage volume
       community.docker.docker_volume:
-        name: calibreweb-config
+        name: prometheus-storage
         recreate: never
         state: present
 
-    # Deploy The Default Containers!    
-    - name: deploy calibreweb container
+    - name: create Grafana storage volume
+      community.docker.docker_volume:
+        name: grafana-storage
+        recreate: never
+        state: present
+
+    - name: create Transmission config Volume
+      community.docker.docker_volume:
+        name: transmission-config
+        recreate: never
+        state: present
+
+    - name: create Transmission storage Volume
+      community.docker.docker_volume:
+        name: transmission-storage
+        recreate: never
+        state: present
+
+    # Deploy The Containers!    
+    - name: deploy node_exporter
       community.docker.docker_container:
-        name: calibreweb
-        image: "ghcr.io/linuxserver/calibre-web:latest"
+        name: node_exporter
+        image: "quay.io/prometheus/node-exporter:latest"
         ports:
-          - "8083:8083"
+          - "9100:9100"
+        volumes:
+          - "/:/host:ro"
+        restart_policy: "unless-stopped"
+
+    - name: deploy prometheus
+      community.docker.docker_container:
+        name: prometheus
+        image: "prom/prometheus:latest"
+        ports:
+          - "9200:9090"
+        volumes:
+          - "/home/pi/Config/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+          - "prometheus-storage:/prometheus"
+        restart_policy: "unless-stopped"
+
+    - name: deploy grafana
+      community.docker.docker_container:
+        name: grafana
+        image: "grafana/grafana:main"
+        ports:
+          - "3456:3000"
+        volumes:
+          - "grafana-storage:/var/lib/grafana"
+        restart_policy: "unless-stopped"
+
+    - name: deploy transmission
+      community.docker.docker_container:
+        name: transmission
+        image: "ghcr.io/linuxserver/transmission:latest"
+        ports:
+          - "51413:51413/tcp"
+          - "51413:51413/udp"
+          - "6881:6881/tcp"
+          - "6881:6881/udp"
+          - "9091:9091/tcp"
         volumes:
           - "/etc/localtime:/etc/localtime:ro"
-          - "calibreweb-config:/config"
-#         - "/home/pi/.config/appdata/calibreweb:/config"
-          - "/home/pi/storage:/storage"
-          - "/mnt/nas/Media/Calibre Library:/books"
-        restart_policy: unless-stopped
+          - "transmission-config:/config"
+          - "transmission-storage:/storage"
+          - "/mnt/nas/Public/Downloads/watch:/watch"
+          - "/mnt/nas/Public/Downloads:/downloads"
+        restart_policy: "unless-stopped"
 
-    # TODO: Restore backups of homebridge, grafana and uptime kuma.
+    # TODO: Add containers / volumes for heimdall and homebridge
