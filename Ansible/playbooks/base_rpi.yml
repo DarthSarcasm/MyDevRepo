@@ -57,6 +57,6 @@
         dest: /home/pi/bin
         owner: pi
         group: pi
-        mode: '0755'
+        mode: '0600'
 
 # Default pi build with default user and password now created. Hooray

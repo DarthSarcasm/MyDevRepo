@@ -52,24 +52,6 @@
         recreate: never
         state: present
 
-    - name: create Jellyfin config Volume
-      community.docker.docker_volume:
-        name: jellyfin-config
-        recreate: never
-        state: present
-
-    - name: create Jellyfin Movie data Volume
-      community.docker.docker_volume:
-        name: jellyfin-movie-data
-        recreate: never
-        state: present
-        
-    - name: create Jellyfin TV data Volume
-      community.docker.docker_volume:
-        name: jellyfin-TV-data
-        recreate: never
-        state: present
-        
     # Deploy The Containers!    
     - name: deploy calibreweb container
       community.docker.docker_container:
@@ -128,20 +110,6 @@
           - /mnt/nas/Media/Podcasts:/podcasts
           - audiobookshelf-config:/config
           - audiobookshelf-metadata:/metadata
-        restart_policy: unless-stopped
-
-    - name: deploy jellyfin container
-      community.docker.docker_container:
-        name: jellyfin
-        image: "lscr.io/linuxserver/jellyfin:latest"
-        ports:
-          - "8096:8096/tcp"
-          - "8920:8920/tcp"
-        volumes:
-          - "/mnt/nas/Media:/media"
-          - "jellyfin-config:/config"
-          - "jellyfin-movie-data:/data/movies"
-          - "jellyfin-TV-data:/data/tvshows"
         restart_policy: unless-stopped
 
     # TODO: Restore backups of homebridge, grafana and uptime kuma.

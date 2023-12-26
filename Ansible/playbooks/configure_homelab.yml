@@ -31,12 +31,6 @@
         recreate: never
         state: present
 
-    - name: create Transmission config Volume
-      community.docker.docker_volume:
-        name: transmission-config
-        recreate: never
-        state: present
-
     - name: create Transmission storage Volume
       community.docker.docker_volume:
         name: transmission-storage
@@ -115,11 +109,23 @@
           - "9091:9091/tcp"
         volumes:
           - "/etc/localtime:/etc/localtime:ro"
-          - "transmission-config:/config"
+          - "/home/pi/Config/Transmission:/config"
           - "transmission-storage:/storage"
           - "/mnt/nas/Public/Downloads/watch:/watch"
           - "/mnt/nas/Public/Downloads:/downloads"
         restart_policy: "unless-stopped"
+
+    - name: fiddle the transmission config permission
+      shell:
+        cmd: sudo chown pi:pi /home/pi/Config/Transmission
+
+    - name: copy transmission settings file
+      copy:
+        src: "{{ template }}/settings.json"
+        dest: /home/pi/Config/Transmission
+        owner: pi
+        group: pi
+        mode: '0755'
 
     - name: deploy heimdall
       community.docker.docker_container:
@@ -143,4 +149,3 @@
         volumes:
           - "homebridge-config:/homebridge"
         restart_policy: "always"
-
