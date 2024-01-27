@@ -37,18 +37,6 @@
         recreate: never
         state: present
 
-    - name: create heimdall config Volume
-      community.docker.docker_volume:
-        name: heimdall-config
-        recreate: never
-        state: present
-
-    - name: create heimdall storage Volume
-      community.docker.docker_volume:
-        name: heimdall-storage
-        recreate: never
-        state: present
-
     - name: create uptime-kuma data Volume
       community.docker.docker_volume:
         name: uptime-kuma-data
@@ -126,19 +114,6 @@
         owner: pi
         group: pi
         mode: '0755'
-
-    - name: deploy heimdall
-      community.docker.docker_container:
-        name: heimdall
-        image: "ghcr.io/linuxserver/heimdall:latest"
-        ports:
-          - "447:443/tcp"
-          - "8002:80/tcp"
-        volumes:
-          - "/etc/localtime:/etc/localtime:ro"
-          - "heimdall-config:/config"
-          - "heimdall-storage:/storage"
-        restart_policy: "unless-stopped"
 
     - name: deploy homebridge
       community.docker.docker_container:
