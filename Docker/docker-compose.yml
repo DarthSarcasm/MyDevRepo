@@ -1,0 +1,926 @@
+services:
+
+  Homepage:
+    command:
+      - "node"
+      - "server.js"
+    container_name: "Homepage"
+    entrypoint:
+      - "docker-entrypoint.sh"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "NODE_VERSION=18.19.0"
+      - "YARN_VERSION=1.22.19"
+      - "NODE_ENV=production"
+      - "PORT=3000"
+    hostname: "4157320746b0"
+    image: "ghcr.io/gethomepage/homepage:latest"
+    ipc: "private"
+    labels:
+      org.opencontainers.image.created: "2024-02-13T18:57:03.063Z"
+      org.opencontainers.image.description: "A highly customizable homepage (or startpage / application\
+        \ dashboard) with Docker and service API integrations."
+      org.opencontainers.image.documentation: "https://github.com/gethomepage/homepage/wiki"
+      org.opencontainers.image.licenses: "GPL-3.0"
+      org.opencontainers.image.revision: "87d1ea4f2e7bd3080a3e44786d4dea3a5c56454f"
+      org.opencontainers.image.source: "https://github.com/gethomepage/homepage"
+      org.opencontainers.image.title: "homepage"
+      org.opencontainers.image.url: "https://github.com/gethomepage/homepage"
+      org.opencontainers.image.version: "v0.8.8"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:0d"
+    network_mode: "bridge"
+    ports:
+      - "3015:3000/tcp"
+    restart: "unless-stopped"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "homepage-config:/app/config"
+    working_dir: "/app"
+
+  audiobookshelf:
+    command:
+      - "node"
+      - "index.js"
+    container_name: "audiobookshelf"
+    entrypoint:
+      - "tini"
+      - "--"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "NODE_VERSION=20.11.1"
+      - "YARN_VERSION=1.22.19"
+      - "NODE_ENV=production"
+    hostname: "7faf03145f83"
+    image: "ghcr.io/advplyr/audiobookshelf:latest"
+    ipc: "private"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:07"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:13378:80/tcp"
+    restart: "unless-stopped"
+    volumes:
+      - "/mnt/nas/Media/Audiobooks:/audiobooks"
+      - "/mnt/nas/Media/Podcasts:/podcasts"
+      - "audiobookshelf-config:/config"
+      - "audiobookshelf-metadata:/metadata"
+
+  calibre-web:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "calibre-web"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOME=/root"
+      - "LANGUAGE=en_US.UTF-8"
+      - "LANG=en_US.UTF-8"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+
+    hostname: "24ea6f027f9c"
+
+    image: "linuxserver/calibre-web:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- 0.6.21-ls253 Build-date:- 2024-02-18T01:28:53+00:00"
+      maintainer: "chbmb"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-02-18T01:28:53+00:00"
+      org.opencontainers.image.description: "[Calibre-web](https://github.com/janeczku/calibre-web) is\
+        \ a web app providing a clean interface for browsing, reading and downloading eBooks using an\
+        \ existing Calibre database.   It is also possible to integrate google drive and edit metadata\
+        \ and your calibre library through the app itself.    This software is a fork of library and licensed\
+        \ under the GPL v3 License.  "
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-calibre-web"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "62ca74aebb3999807259a8a7ee1421fd47803b90"
+      org.opencontainers.image.revision: "62ca74aebb3999807259a8a7ee1421fd47803b90"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-calibre-web"
+      org.opencontainers.image.title: "Calibre-web"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-calibre-web/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "0.6.21-ls253"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:08"
+
+    network_mode: "bridge"
+
+    ports:
+      - "8083:8083/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "/mnt/nas/Media/Calibre Library:/books"
+      - "calibreweb-config:/config"
+
+    working_dir: "/"
+
+  grafana:
+    container_name: "grafana"
+    entrypoint:
+      - "/run.sh"
+    environment:
+      - "PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "GF_PATHS_CONFIG=/etc/grafana/grafana.ini"
+      - "GF_PATHS_DATA=/var/lib/grafana"
+      - "GF_PATHS_HOME=/usr/share/grafana"
+      - "GF_PATHS_LOGS=/var/log/grafana"
+      - "GF_PATHS_PLUGINS=/var/lib/grafana/plugins"
+      - "GF_PATHS_PROVISIONING=/etc/grafana/provisioning"
+    hostname: "8fa739b5f454"
+    image: "grafana/grafana:main"
+    ipc: "private"
+    labels:
+      maintainer: "Grafana Labs <hello@grafana.com>"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:03"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:3456:3000/tcp"
+    restart: "unless-stopped"
+    user: "472"
+    volumes:
+      - "grafana-storage:/var/lib/grafana"
+    working_dir: "/usr/share/grafana"
+
+  homebridge:
+
+    container_name: "homebridge"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PGID=1000"
+      - "PUID=1000"
+      - "HOMEBRIDGE_CONFIG_UI=1"
+      - "HOMEBRIDGE_CONFIG_UI_PORT=8581"
+      - "TZ=America/New_York"
+      - "PATH=/opt/homebridge/bin:/var/lib/homebridge/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOMEBRIDGE_PKG_VERSION=1.1.6"
+      - "FFMPEG_VERSION=v2.1.1"
+      - "S6_OVERLAY_VERSION=3.1.1.2"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_KEEP_ENV=1"
+      - "ENABLE_AVAHI=1"
+      - "USER=root"
+      - "HOMEBRIDGE_APT_PACKAGE=1"
+      - "UIX_CUSTOM_PLUGIN_PATH=/var/lib/homebridge/node_modules"
+      - "HOME=/home/homebridge"
+      - "npm_config_prefix=/opt/homebridge"
+
+    expose:
+      - "8581/tcp"
+
+    hostname: "atlaspi"
+
+    image: "homebridge/homebridge:latest"
+
+    ipc: "private"
+
+    labels:
+      org.opencontainers.image.authors: "homebridge"
+      org.opencontainers.image.description: "Official Homebridge Docker Image"
+      org.opencontainers.image.licenses: "GPL-3.0"
+      org.opencontainers.image.ref.name: "ubuntu"
+      org.opencontainers.image.title: "Homebridge in Docker"
+      org.opencontainers.image.url: "https://github.com/homebridge/docker-homebridge"
+      org.opencontainers.image.version: "22.04"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    network_mode: "host"
+
+    privileged: true
+
+    restart: "unless-stopped"
+
+    security_opt:
+      - "label=disable"
+
+    volumes:
+      - "homebridge-config:/homebridge"
+
+    working_dir: "/homebridge"
+
+  jellyfin:
+
+    container_name: "jellyfin"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "TZ=Etc/UTC"
+      - "JELLYFIN_PublishedServerUrl=192.168.0.5"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOME=/root"
+      - "LANGUAGE=en_US.UTF-8"
+      - "LANG=en_US.UTF-8"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+      - "NVIDIA_DRIVER_CAPABILITIES=compute,video,utility"
+
+    hostname: "214cb75c52f9"
+
+    image: "lscr.io/linuxserver/jellyfin:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- 10.8.13-1-ls247 Build-date:- 2024-02-20T12:41:34+00:00"
+      maintainer: "thelamer"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-02-20T12:41:34+00:00"
+      org.opencontainers.image.description: "[Jellyfin](https://github.com/jellyfin/jellyfin) is a Free\
+        \ Software Media System that puts you in control of managing and streaming your media. It is an\
+        \ alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user\
+        \ devices via multiple apps. Jellyfin is descended from Emby's 3.5.2 release and ported to the\
+        \ .NET Core framework to enable full cross-platform support. There are no strings attached, no\
+        \ premium licenses or features, and no hidden agendas: just a team who want to build something\
+        \ better and work together to achieve it."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-jellyfin"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "c9f43b6ae0bc79bbb0f0b20dbdcb3d82f3b5cda2"
+      org.opencontainers.image.revision: "c9f43b6ae0bc79bbb0f0b20dbdcb3d82f3b5cda2"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-jellyfin"
+      org.opencontainers.image.title: "Jellyfin"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-jellyfin/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "10.8.13-1-ls247"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:0b"
+
+    network_mode: "bridge"
+
+    ports:
+      - "1900:1900/udp"
+      - "7359:7359/udp"
+      - "8096:8096/tcp"
+      - "8920:8920/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "/mnt/nas/Media/Movies:/data/movies"
+      - "/mnt/nas/Media/TV Shows:/data/tvshows"
+      - "jellyfin-config:/config"
+
+    working_dir: "/"
+
+  node_exporter:
+    container_name: "node_exporter"
+    entrypoint:
+      - "/bin/node_exporter"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    hostname: "7c28a5c782c7"
+    image: "quay.io/prometheus/node-exporter:latest"
+    ipc: "private"
+    labels:
+      maintainer: "The Prometheus Authors <prometheus-developers@googlegroups.com>"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:02"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:9100:9100/tcp"
+    restart: "unless-stopped"
+    user: "nobody"
+    volumes:
+      - "/:/host:ro"
+
+  plex:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "plex"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "VERSION=latest"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOME=/root"
+      - "LANGUAGE=en_US.UTF-8"
+      - "LANG=en_US.UTF-8"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+      - "DEBIAN_FRONTEND=noninteractive"
+      - "PLEX_DOWNLOAD=https://downloads.plex.tv/plex-media-server-new"
+      - "PLEX_ARCH=arm64"
+      - "PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/config/Library/Application Support"
+      - "PLEX_MEDIA_SERVER_HOME=/usr/lib/plexmediaserver"
+      - "PLEX_MEDIA_SERVER_MAX_PLUGIN_PROCS=6"
+      - "PLEX_MEDIA_SERVER_USER=abc"
+      - "PLEX_MEDIA_SERVER_INFO_VENDOR=Docker"
+      - "PLEX_MEDIA_SERVER_INFO_DEVICE=Docker Container (LinuxServer.io)"
+
+    expose:
+      - "1900/udp"
+      - "32400/tcp"
+      - "32410/udp"
+      - "32412/udp"
+      - "32413/udp"
+      - "32414/udp"
+      - "32469/tcp"
+      - "5353/udp"
+      - "8324/tcp"
+
+    hostname: "atlaspi"
+
+    image: "linuxserver/plex:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- 1.32.8.7639-fb6452ebf-ls201 Build-date:- 2024-01-22T09:20:52+00:00"
+      maintainer: "thelamer"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-01-22T09:20:52+00:00"
+      org.opencontainers.image.description: "[Plex](https://plex.tv) organizes video, music and photos\
+        \ from personal media libraries and streams them to smart TVs, streaming boxes and mobile devices.\
+        \ This container is packaged as a standalone Plex Media Server. Straightforward design and bulk\
+        \ actions mean getting things done faster."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-plex"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "0ae63a4bc562b57bed6b749b9ad0ff750be1c75f"
+      org.opencontainers.image.revision: "0ae63a4bc562b57bed6b749b9ad0ff750be1c75f"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-plex"
+      org.opencontainers.image.title: "Plex"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-plex/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "1.32.8.7639-fb6452ebf-ls201"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    network_mode: "host"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "/mnt/nas/Media/movies:/movies"
+      - "/mnt/nas/Media/tv shows:/tv"
+      - "plex-config:/config"
+
+    working_dir: "/"
+
+  portainer:
+
+    container_name: "portainer"
+
+    entrypoint:
+      - "/portainer"
+
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+    hostname: "7a74951babd1"
+
+    image: "portainer/portainer-ce:latest"
+
+    ipc: "private"
+
+    labels:
+      com.docker.desktop.extension.api.version: ">= 0.2.2"
+      com.docker.desktop.extension.icon: "https://portainer-io-assets.sfo2.cdn.digitaloceanspaces.com/logos/portainer.png"
+      com.docker.extension.additional-urls: "[{\"title\":\"Website\",\"url\":\"https://www.portainer.io?utm_campaign=DockerCon&utm_source=DockerDesktop\"\
+        },{\"title\":\"Documentation\",\"url\":\"https://docs.portainer.io\"},{\"title\":\"Support\",\"\
+        url\":\"https://join.slack.com/t/portainer/shared_invite/zt-txh3ljab-52QHTyjCqbe5RibC2lcjKA\"\
+        }]"
+      com.docker.extension.detailed-description: "<p data-renderer-start-pos=\"226\">Portainer&rsquo;s\
+        \ Docker Desktop extension gives you access to all of Portainer&rsquo;s rich management functionality\
+        \ within your docker desktop experience.</p><h2 data-renderer-start-pos=\"374\">With Portainer\
+        \ you can:</h2><ul><li>See all your running containers</li><li>Easily view all of your container\
+        \ logs</li><li>Console into containers</li><li>Easily deploy your code into containers using a\
+        \ simple form</li><li>Turn your YAML into custom templates for easy reuse</li></ul><h2 data-renderer-start-pos=\"\
+        660\">About Portainer&nbsp;</h2><p data-renderer-start-pos=\"680\">Portainer is the worlds&rsquo;\
+        \ most popular universal container management platform with more than 650,000 active monthly users.\
+        \ Portainer can be used to manage Docker Standalone, Kubernetes, Docker Swarm and Nomad environments\
+        \ through a single common interface. It includes a simple GitOps automation engine and a Kube\
+        \ API.&nbsp;</p><p data-renderer-start-pos=\"1006\">Portainer Business Edition is our fully supported\
+        \ commercial grade product for business-wide use. It includes all the functionality that businesses\
+        \ need to manage containers at scale. Visit <a class=\"sc-jKJlTe dPfAtb\" href=\"http://portainer.io/\"\
+        \ title=\"http://Portainer.io\" data-renderer-mark=\"true\">Portainer.io</a> to learn more about\
+        \ Portainer Business and <a class=\"sc-jKJlTe dPfAtb\" href=\"http://portainer.io/take-3?utm_campaign=DockerCon&amp;utm_source=Docker%20Desktop\"\
+        \ title=\"http://portainer.io/take-3?utm_campaign=DockerCon&amp;utm_source=Docker%20Desktop\"\
+        \ data-renderer-mark=\"true\">get 3 free nodes.</a></p>"
+      com.docker.extension.publisher-url: "https://www.portainer.io"
+      com.docker.extension.screenshots: "[{\"alt\": \"screenshot one\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-1.png\"\
+        },{\"alt\": \"screenshot two\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-2.png\"\
+        },{\"alt\": \"screenshot three\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-3.png\"\
+        },{\"alt\": \"screenshot four\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-4.png\"\
+        },{\"alt\": \"screenshot five\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-5.png\"\
+        },{\"alt\": \"screenshot six\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-6.png\"\
+        },{\"alt\": \"screenshot seven\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-7.png\"\
+        },{\"alt\": \"screenshot eight\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-8.png\"\
+        },{\"alt\": \"screenshot nine\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-9.png\"\
+        }]"
+      io.portainer.server: "true"
+      org.opencontainers.image.description: "Docker container management made simple, with the world’s\
+        \ most popular GUI-based container management platform."
+      org.opencontainers.image.title: "Portainer"
+      org.opencontainers.image.vendor: "Portainer.io"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:0c"
+
+    network_mode: "bridge"
+
+    ports:
+      - "0.0.0.0:8000:8000/tcp"
+      - "0.0.0.0:9000:9000/tcp"
+
+    restart: "always"
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer-data:/data"
+
+    working_dir: "/"
+
+  prometheus:
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    container_name: "prometheus"
+    entrypoint:
+      - "/bin/prometheus"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    hostname: "56d37035c130"
+    image: "prom/prometheus:latest"
+    ipc: "private"
+    labels:
+      maintainer: "The Prometheus Authors <prometheus-developers@googlegroups.com>"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:0e"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:9200:9090/tcp"
+    restart: "unless-stopped"
+    user: "nobody"
+    volumes:
+      - "/home/pi/Config/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prometheus-storage:/prometheus"
+    working_dir: "/prometheus"
+
+  resilio-sync:
+
+    container_name: "resilio-sync"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOME=/root"
+      - "LANGUAGE=en_US.UTF-8"
+      - "LANG=en_US.UTF-8"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+
+    hostname: "d0aece980a30"
+
+    image: "linuxserver/resilio-sync:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- 2.7.3.1381-1-ls166 Build-date:- 2024-02-12T23:26:34+00:00"
+      maintainer: "thelamer"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-02-12T23:26:34+00:00"
+      org.opencontainers.image.description: "[Resilio-sync](https://www.resilio.com/individuals/) (formerly\
+        \ BitTorrent Sync) uses the BitTorrent protocol to sync files and folders between all of your\
+        \ devices. There are both free and paid versions, this container supports both. There is an official\
+        \ sync image but we created this one as it supports user mapping to simplify permissions for volumes."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-resilio-sync"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "ad6eca5c38e0fc1f3ced42c4b684f827bdb3a9d4"
+      org.opencontainers.image.revision: "ad6eca5c38e0fc1f3ced42c4b684f827bdb3a9d4"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-resilio-sync"
+      org.opencontainers.image.title: "Resilio-sync"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-resilio-sync/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "2.7.3.1381-1-ls166"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:06"
+
+    network_mode: "bridge"
+
+    ports:
+      - "55555:55555/tcp"
+      - "8888:8888/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "b43e5d118e7726c05cf4f7bb33b62d06cd76b2f3d3132dc756bdab88c2b6a61a:/sync"
+      - "sync-config:/config"
+      - "sync-downloads:/downloads"
+
+    working_dir: "/"
+
+  tautulli:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "tautulli"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "PS1=$(whoami)@$(hostname):$(pwd)\\$"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOME=/root"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+      - "TAUTULLI_DOCKER=True"
+
+    hostname: "1ea2def72c42"
+
+    image: "linuxserver/tautulli:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- v2.13.4-ls116 Build-date:- 2024-01-18T23:31:41+00:00"
+      maintainer: "nemchik,thelamer"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-01-18T23:31:41+00:00"
+      org.opencontainers.image.description: "[Tautulli](http://tautulli.com) is a python based web application\
+        \ for monitoring, analytics and notifications for Plex Media Server."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-tautulli"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "a5be112876d7791be30d584a3be0ea4425753b56"
+      org.opencontainers.image.revision: "a5be112876d7791be30d584a3be0ea4425753b56"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-tautulli"
+      org.opencontainers.image.title: "Tautulli"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-tautulli/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "v2.13.4-ls116"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:05"
+
+    network_mode: "bridge"
+
+    ports:
+      - "8181:8181/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "tautulli-config:/config"
+      - "tautulli-logs:/logs"
+
+    working_dir: "/"
+
+  transmission:
+
+    container_name: "transmission"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "PS1=$(whoami)@$(hostname):$(pwd)\\$ "
+      - "HOME=/root"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+
+    hostname: "b7a1c742d435"
+
+    image: "ghcr.io/linuxserver/transmission:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- 4.0.5-r0-ls222 Build-date:- 2024-02-20T10:34:26+00:00"
+      maintainer: "aptalca"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-02-20T10:34:26+00:00"
+      org.opencontainers.image.description: "[Transmission](https://www.transmissionbt.com/) is designed\
+        \ for easy, powerful use. Transmission has the features you want from a BitTorrent client: encryption,\
+        \ a web interface, peer exchange, magnet links, DHT, µTP, UPnP and NAT-PMP port forwarding, webseed\
+        \ support, watch directories, tracker editing, global and per-torrent speed limits, and more."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-transmission"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "1d9d237ac6da4696632dc17e9ba648b2facc6bc0"
+      org.opencontainers.image.revision: "1d9d237ac6da4696632dc17e9ba648b2facc6bc0"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-transmission"
+      org.opencontainers.image.title: "Transmission"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-transmission/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "4.0.5-r0-ls222"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:0a"
+
+    network_mode: "bridge"
+
+    ports:
+      - "0.0.0.0:51413:51413/tcp"
+      - "0.0.0.0:51413:51413/udp"
+      - "0.0.0.0:6881:6881/tcp"
+      - "0.0.0.0:6881:6881/udp"
+      - "0.0.0.0:9091:9091/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/pi/Config/Transmission:/config"
+      - "/mnt/nas/Public/Downloads/watch:/watch"
+      - "/mnt/nas/Public/Downloads:/downloads"
+      - "transmission-storage:/storage"
+
+    working_dir: "/"
+
+  uptime-kuma:
+    command:
+      - "node"
+      - "server/server.js"
+    container_name: "uptime-kuma"
+    entrypoint:
+      - "/usr/bin/dumb-init"
+      - "--"
+      - "extra/entrypoint.sh"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "NODE_VERSION=18.19.0"
+      - "YARN_VERSION=1.22.19"
+      - "UPTIME_KUMA_IS_CONTAINER=1"
+    hostname: "996812d25b33"
+    image: "louislam/uptime-kuma:1"
+    ipc: "private"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:09"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:3001:3001/tcp"
+    restart: "always"
+    volumes:
+      - "uptime-kuma-data:/app/data"
+    working_dir: "/app"
+
+  watchtower:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    command:
+      - "--schedule"
+      - "0 0 4 * * *"
+      - "--debug"
+      - "--remove-volumes"
+      - "--cleanup"
+
+    container_name: "watchtower"
+
+    entrypoint:
+      - "/watchtower"
+
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+    expose:
+      - "8080/tcp"
+
+    hostname: "7a52ebe93317"
+
+    image: "containrrr/watchtower:latest"
+
+    ipc: "private"
+
+    labels:
+      com.centurylinklabs.watchtower: "true"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:04"
+
+    network_mode: "bridge"
+
+    restart: "always"
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    working_dir: "/"
+
+version: "3.6"
+
+volumes:
+  audiobookshelf-config:
+    external: true
+  audiobookshelf-metadata:
+    external: true
+  b43e5d118e7726c05cf4f7bb33b62d06cd76b2f3d3132dc756bdab88c2b6a61a:
+    external: true
+  calibreweb-config:
+    external: true
+  grafana-storage:
+    external: true
+  homebridge-config:
+    external: true
+  homepage-config:
+    external: true
+  jellyfin-config:
+    external: true
+  plex-config:
+    external: true
+  portainer-data:
+    external: true
+  prometheus-storage:
+    external: true
+  sync-config:
+    external: true
+  sync-downloads:
+    external: true
+  tautulli-config:
+    external: true
+  tautulli-logs:
+    external: true
+  transmission-storage:
+    external: true
+  uptime-kuma-data:
+    external: true
