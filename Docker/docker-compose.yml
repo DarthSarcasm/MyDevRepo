@@ -59,7 +59,7 @@ services:
     logging:
       driver: "json-file"
       options: {}
-    mac_address: "02:42:ac:11:00:07"
+    mac_address: "02:42:ac:11:00:06"
     network_mode: "bridge"
     ports:
       - "0.0.0.0:13378:80/tcp"
@@ -123,10 +123,10 @@ services:
     ipc: "private"
 
     labels:
-      build_version: "Linuxserver.io version:- 0.6.21-ls253 Build-date:- 2024-02-18T01:28:53+00:00"
+      build_version: "Linuxserver.io version:- 0.6.21-ls257 Build-date:- 2024-03-10T01:28:47+00:00"
       maintainer: "chbmb"
       org.opencontainers.image.authors: "linuxserver.io"
-      org.opencontainers.image.created: "2024-02-18T01:28:53+00:00"
+      org.opencontainers.image.created: "2024-03-10T01:28:47+00:00"
       org.opencontainers.image.description: "[Calibre-web](https://github.com/janeczku/calibre-web) is\
         \ a web app providing a clean interface for browsing, reading and downloading eBooks using an\
         \ existing Calibre database.   It is also possible to integrate google drive and edit metadata\
@@ -134,19 +134,19 @@ services:
         \ under the GPL v3 License.  "
       org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-calibre-web"
       org.opencontainers.image.licenses: "GPL-3.0-only"
-      org.opencontainers.image.ref.name: "62ca74aebb3999807259a8a7ee1421fd47803b90"
-      org.opencontainers.image.revision: "62ca74aebb3999807259a8a7ee1421fd47803b90"
+      org.opencontainers.image.ref.name: "6343f043649d207819f01eba9d05f9d0c24fedf9"
+      org.opencontainers.image.revision: "6343f043649d207819f01eba9d05f9d0c24fedf9"
       org.opencontainers.image.source: "https://github.com/linuxserver/docker-calibre-web"
       org.opencontainers.image.title: "Calibre-web"
       org.opencontainers.image.url: "https://github.com/linuxserver/docker-calibre-web/packages"
       org.opencontainers.image.vendor: "linuxserver.io"
-      org.opencontainers.image.version: "0.6.21-ls253"
+      org.opencontainers.image.version: "0.6.21-ls257"
 
     logging:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:08"
+    mac_address: "02:42:ac:11:00:0b"
 
     network_mode: "bridge"
 
@@ -181,7 +181,7 @@ services:
     logging:
       driver: "json-file"
       options: {}
-    mac_address: "02:42:ac:11:00:03"
+    mac_address: "02:42:ac:11:00:0a"
     network_mode: "bridge"
     ports:
       - "0.0.0.0:3456:3000/tcp"
@@ -284,10 +284,10 @@ services:
     ipc: "private"
 
     labels:
-      build_version: "Linuxserver.io version:- 10.8.13-1-ls247 Build-date:- 2024-02-20T12:41:34+00:00"
+      build_version: "Linuxserver.io version:- 10.8.13-1-ls2 Build-date:- 2024-03-05T12:44:35+00:00"
       maintainer: "thelamer"
       org.opencontainers.image.authors: "linuxserver.io"
-      org.opencontainers.image.created: "2024-02-20T12:41:34+00:00"
+      org.opencontainers.image.created: "2024-03-05T12:44:35+00:00"
       org.opencontainers.image.description: "[Jellyfin](https://github.com/jellyfin/jellyfin) is a Free\
         \ Software Media System that puts you in control of managing and streaming your media. It is an\
         \ alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user\
@@ -297,19 +297,19 @@ services:
         \ better and work together to achieve it."
       org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-jellyfin"
       org.opencontainers.image.licenses: "GPL-3.0-only"
-      org.opencontainers.image.ref.name: "c9f43b6ae0bc79bbb0f0b20dbdcb3d82f3b5cda2"
-      org.opencontainers.image.revision: "c9f43b6ae0bc79bbb0f0b20dbdcb3d82f3b5cda2"
+      org.opencontainers.image.ref.name: "651079bafd23289898532af6535aaa734a11dc6b"
+      org.opencontainers.image.revision: "651079bafd23289898532af6535aaa734a11dc6b"
       org.opencontainers.image.source: "https://github.com/linuxserver/docker-jellyfin"
       org.opencontainers.image.title: "Jellyfin"
       org.opencontainers.image.url: "https://github.com/linuxserver/docker-jellyfin/packages"
       org.opencontainers.image.vendor: "linuxserver.io"
-      org.opencontainers.image.version: "10.8.13-1-ls247"
+      org.opencontainers.image.version: "10.8.13-1-ls2"
 
     logging:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:0b"
+    mac_address: "02:42:ac:11:00:08"
 
     network_mode: "bridge"
 
@@ -342,7 +342,7 @@ services:
     logging:
       driver: "json-file"
       options: {}
-    mac_address: "02:42:ac:11:00:02"
+    mac_address: "02:42:ac:11:00:07"
     network_mode: "bridge"
     ports:
       - "0.0.0.0:9100:9100/tcp"
@@ -452,6 +452,7 @@ services:
     restart: "unless-stopped"
 
     volumes:
+      - "/mnt/nas/Media/Videos:/videos"
       - "/mnt/nas/Media/movies:/movies"
       - "/mnt/nas/Media/tv shows:/tv"
       - "plex-config:/config"
@@ -519,7 +520,7 @@ services:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:0c"
+    mac_address: "02:42:ac:11:00:09"
 
     network_mode: "bridge"
 
@@ -554,7 +555,7 @@ services:
     logging:
       driver: "json-file"
       options: {}
-    mac_address: "02:42:ac:11:00:0e"
+    mac_address: "02:42:ac:11:00:0c"
     network_mode: "bridge"
     ports:
       - "0.0.0.0:9200:9090/tcp"
@@ -593,29 +594,29 @@ services:
     ipc: "private"
 
     labels:
-      build_version: "Linuxserver.io version:- 2.7.3.1381-1-ls166 Build-date:- 2024-02-12T23:26:34+00:00"
+      build_version: "Linuxserver.io version:- 2.7.3.1381-1-ls168 Build-date:- 2024-03-04T23:27:21+00:00"
       maintainer: "thelamer"
       org.opencontainers.image.authors: "linuxserver.io"
-      org.opencontainers.image.created: "2024-02-12T23:26:34+00:00"
+      org.opencontainers.image.created: "2024-03-04T23:27:21+00:00"
       org.opencontainers.image.description: "[Resilio-sync](https://www.resilio.com/individuals/) (formerly\
         \ BitTorrent Sync) uses the BitTorrent protocol to sync files and folders between all of your\
         \ devices. There are both free and paid versions, this container supports both. There is an official\
         \ sync image but we created this one as it supports user mapping to simplify permissions for volumes."
       org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-resilio-sync"
       org.opencontainers.image.licenses: "GPL-3.0-only"
-      org.opencontainers.image.ref.name: "ad6eca5c38e0fc1f3ced42c4b684f827bdb3a9d4"
-      org.opencontainers.image.revision: "ad6eca5c38e0fc1f3ced42c4b684f827bdb3a9d4"
+      org.opencontainers.image.ref.name: "6be6e1a1955226a1757e994490c12bc15271cadc"
+      org.opencontainers.image.revision: "6be6e1a1955226a1757e994490c12bc15271cadc"
       org.opencontainers.image.source: "https://github.com/linuxserver/docker-resilio-sync"
       org.opencontainers.image.title: "Resilio-sync"
       org.opencontainers.image.url: "https://github.com/linuxserver/docker-resilio-sync/packages"
       org.opencontainers.image.vendor: "linuxserver.io"
-      org.opencontainers.image.version: "2.7.3.1381-1-ls166"
+      org.opencontainers.image.version: "2.7.3.1381-1-ls168"
 
     logging:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:06"
+    mac_address: "02:42:ac:11:00:05"
 
     network_mode: "bridge"
 
@@ -705,7 +706,7 @@ services:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:05"
+    mac_address: "02:42:ac:11:00:0e"
 
     network_mode: "bridge"
 
@@ -745,29 +746,29 @@ services:
     ipc: "private"
 
     labels:
-      build_version: "Linuxserver.io version:- 4.0.5-r0-ls222 Build-date:- 2024-02-20T10:34:26+00:00"
+      build_version: "Linuxserver.io version:- 4.0.5-r0-ls224 Build-date:- 2024-03-05T10:33:53+00:00"
       maintainer: "aptalca"
       org.opencontainers.image.authors: "linuxserver.io"
-      org.opencontainers.image.created: "2024-02-20T10:34:26+00:00"
+      org.opencontainers.image.created: "2024-03-05T10:33:53+00:00"
       org.opencontainers.image.description: "[Transmission](https://www.transmissionbt.com/) is designed\
         \ for easy, powerful use. Transmission has the features you want from a BitTorrent client: encryption,\
         \ a web interface, peer exchange, magnet links, DHT, µTP, UPnP and NAT-PMP port forwarding, webseed\
         \ support, watch directories, tracker editing, global and per-torrent speed limits, and more."
       org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-transmission"
       org.opencontainers.image.licenses: "GPL-3.0-only"
-      org.opencontainers.image.ref.name: "1d9d237ac6da4696632dc17e9ba648b2facc6bc0"
-      org.opencontainers.image.revision: "1d9d237ac6da4696632dc17e9ba648b2facc6bc0"
+      org.opencontainers.image.ref.name: "2b98bc113050c43565c7f178d1f6df3dd4c3ed43"
+      org.opencontainers.image.revision: "2b98bc113050c43565c7f178d1f6df3dd4c3ed43"
       org.opencontainers.image.source: "https://github.com/linuxserver/docker-transmission"
       org.opencontainers.image.title: "Transmission"
       org.opencontainers.image.url: "https://github.com/linuxserver/docker-transmission/packages"
       org.opencontainers.image.vendor: "linuxserver.io"
-      org.opencontainers.image.version: "4.0.5-r0-ls222"
+      org.opencontainers.image.version: "4.0.5-r0-ls224"
 
     logging:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:0a"
+    mac_address: "02:42:ac:11:00:04"
 
     network_mode: "bridge"
 
@@ -809,7 +810,7 @@ services:
     logging:
       driver: "json-file"
       options: {}
-    mac_address: "02:42:ac:11:00:09"
+    mac_address: "02:42:ac:11:00:03"
     network_mode: "bridge"
     ports:
       - "0.0.0.0:3001:3001/tcp"
@@ -876,7 +877,7 @@ services:
       driver: "json-file"
       options: {}
 
-    mac_address: "02:42:ac:11:00:04"
+    mac_address: "02:42:ac:11:00:02"
 
     network_mode: "bridge"
 
