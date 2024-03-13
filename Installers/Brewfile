@@ -16,6 +16,8 @@ brew "mosh"
 brew "python@3.11"
 brew "wget"
 brew "aws/tap/ec2-instance-selector"
+brew "speedtest-cli"
+brew "htop"
 
 # 'brew install --cask'
 cask "1Password"
@@ -40,7 +42,7 @@ cask "zoom"
 
 # LAPTOP ONLY
 # cask "airbuddy"
-# mas "WireGuard"
+# mas "WireGuard", id: 1451685025
 # LAPTOP ONLY
 
 # DESKTOP ONLY
@@ -53,7 +55,7 @@ cask "zoom"
 # mas "Transloader"
 # DESKTOP ONLY
 
-# 'mas install'
+# 'mas install' - requires brew mas
 mas "1Blocker", id: 1365531024
 mas "1Password for Safari", id: 1569813296
 mas "Baking Soda", id: 1601151613
@@ -73,6 +75,7 @@ mas "Logger", id: 1611554653
 mas "Moom", id: 419330170
 mas "Noir", id: 1592917505
 mas "Numbers", id: 409203825
+mas "Omnifocus", id: 1542143627
 mas "Pages", id: 409201541
 mas "Parcel", id: 639968404
 mas "PCalc", id: 403504866
