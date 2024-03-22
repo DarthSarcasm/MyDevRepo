@@ -1,2 +1,2 @@
-docker container restart calibreweb
+docker container restart calibre-web
 docker container restart homebridge
