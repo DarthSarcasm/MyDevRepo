@@ -23,4 +23,4 @@ ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/configure_docker.yml
 # Deploy basic admin containers
 ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/basic_containers.yml
 # Deploy the containers
-#ansible-playbook -i $ANSIBLE_INVENTORY -e "template=$UNIX_SCRIPT_PATH/Atlas/container_templates" $ANSIBLE_PLAYBOOKS/configure_homelab.yml
+# ansible-playbook -i $ANSIBLE_INVENTORY -e "template=$UNIX_SCRIPT_PATH/Atlas/container_templates" $ANSIBLE_PLAYBOOKS/configure_homelab.yml
