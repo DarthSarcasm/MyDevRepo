@@ -1,7 +1,6 @@
 # Script to update / build atlaspi using ansible where possible.
 
-REPO_DIR='/Volumes/T7/*Projects/Code/MyDevRepo/MyDevRepo'
-#REPO_DIR='/Users/antonyharris/Code/MyDevRepo'
+REPO_DIR='/Users/antonyharris/Code/MyDevRepo'
 ANSIBLE_INVENTORY=$REPO_DIR/Ansible/inventory/inventory.yml
 ANSIBLE_PLAYBOOKS=$REPO_DIR/Ansible/playbooks
 UNIX_SCRIPT_PATH=$REPO_DIR/Unix/Pi_Files
