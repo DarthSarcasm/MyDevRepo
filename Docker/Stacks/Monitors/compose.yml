@@ -1,0 +1,123 @@
+services:
+
+  grafana:
+    container_name: "grafana"
+    entrypoint:
+      - "/run.sh"
+    environment:
+      - "PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "GF_PATHS_CONFIG=/etc/grafana/grafana.ini"
+      - "GF_PATHS_DATA=/var/lib/grafana"
+      - "GF_PATHS_HOME=/usr/share/grafana"
+      - "GF_PATHS_LOGS=/var/log/grafana"
+      - "GF_PATHS_PLUGINS=/var/lib/grafana/plugins"
+      - "GF_PATHS_PROVISIONING=/etc/grafana/provisioning"
+    hostname: "8fa739b5f454"
+    image: "grafana/grafana:main"
+    ipc: "private"
+    labels:
+      maintainer: "Grafana Labs <hello@grafana.com>"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:03"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:3456:3000/tcp"
+    restart: "unless-stopped"
+    user: "472"
+    volumes:
+      - "grafana-storage:/var/lib/grafana"
+    working_dir: "/usr/share/grafana"
+
+  node_exporter:
+    container_name: "node_exporter"
+    entrypoint:
+      - "/bin/node_exporter"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    hostname: "7c28a5c782c7"
+    image: "quay.io/prometheus/node-exporter:latest"
+    ipc: "private"
+    labels:
+      maintainer: "The Prometheus Authors <prometheus-developers@googlegroups.com>"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:0a"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:9100:9100/tcp"
+    restart: "unless-stopped"
+    user: "nobody"
+    volumes:
+      - "/:/host:ro"
+
+  prometheus:
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    container_name: "prometheus"
+    entrypoint:
+      - "/bin/prometheus"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    hostname: "56d37035c130"
+    image: "prom/prometheus:latest"
+    ipc: "private"
+    labels:
+      maintainer: "The Prometheus Authors <prometheus-developers@googlegroups.com>"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:0e"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:9200:9090/tcp"
+    restart: "unless-stopped"
+    user: "nobody"
+    volumes:
+      - "/home/pi/Config/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prometheus-storage:/prometheus"
+    working_dir: "/prometheus"
+
+  uptime-kuma:
+    command:
+      - "node"
+      - "server/server.js"
+    container_name: "uptime-kuma"
+    entrypoint:
+      - "/usr/bin/dumb-init"
+      - "--"
+      - "extra/entrypoint.sh"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "NODE_VERSION=18.20.2"
+      - "YARN_VERSION=1.22.19"
+      - "UPTIME_KUMA_IS_CONTAINER=1"
+    hostname: "996812d25b33"
+    image: "louislam/uptime-kuma:1"
+    ipc: "private"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:02"
+    network_mode: "bridge"
+    ports:
+      - "0.0.0.0:3001:3001/tcp"
+    restart: "always"
+    volumes:
+      - "uptime-kuma-data:/app/data"
+    working_dir: "/app"
+
+version: "3.6"
+
+volumes:
+  grafana-storage:
+    external: true
+  prometheus-storage:
+    external: true
+  uptime-kuma-data:
+    external: true
