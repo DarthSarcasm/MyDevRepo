@@ -1,0 +1,153 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Monitors:
+    - Tautulli:
+        icon: tautulli.png
+        href: http://tautulli.service.home:8181
+        description: Plex Stats
+        server: my-docker
+        container: tautulli
+        widget:
+            type: tautulli
+            url: http://tautulli.service.home:8181
+            key: 2OJTikLjxJKwFUp0N-_ac89eEGjDqofb
+    - Uptime-kuma:
+        icon: uptime-kuma.png
+        href: http://uptimekuma.service.home:3001
+        description: Web Monitoring
+        server: my-docker
+        container: uptime-kuma
+        widget:
+            type: uptimekuma
+            url: http://uptimekuma.service.home:3001
+            slug: homeserver
+    - Grafana:
+        icon: grafana.png
+        href: http://grafana.service.home:3456
+        description: Server Monitoring
+        server: my-docker
+        container: grafana
+        widget:
+            type: grafana
+            url: http://grafana.service.home:3456
+            username: homepage
+            password: homepage
+            fields: ["datasources", "dashboards"]
+    - Dozzle:
+        icon: dozzle.png
+        href: http://192.168.4.201:8080
+        description: Real Time Docker Logs
+        server: my-docker
+        container: dozzle-dozzle-1
+
+- Media:
+    - Plex:
+        icon: plex.png
+        href: http://plex.service.home:32400
+        description: Movies, TV Shows, Video & Music
+        server: my-docker
+        container: plex
+        widget:
+            type: plex
+            url: http://plex.service.home:32400
+            key: GAst4HA89vgestQqTNwJ
+    - Calibre-Web:
+        icon: calibre.png
+        href: http://calibre.service.home:8083
+        description: eBooks & PDFs
+        server: my-docker
+        container: calibre-web
+        widget:
+            type: calibreweb
+            url: http://calibre.service.home:8083
+            username: antonyharris
+            password: A4zc6Ku8ZemxEwBB!
+            fields: ["books"]
+    - Audiobookshelf:
+        icon: audiobookshelf.png
+        href: http://audiobookshelf.service.home:13378
+        description: Audiobooks & Podcasts
+        server: my-docker
+        container: audiobookshelf
+        widget:
+            type: audiobookshelf
+            url: http://audiobookshelf.service.home:13378
+            key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMDE0N2ZiZS0zMTkwLTRjOTQtYmY0MC1lYzY1ZWNkOWJkNTAiLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzAzNzU2NzYzfQ.S2jR_CqK8Lj8gWHS3fiXGEAM69a04HxgdG-TJ9t_ZXY
+            fields: ["podcasts", "books"]
+    - Jellyfin:
+        icon: jellyfin.png
+        href: http://jellyfin.service.home:8096
+        description: Movies, TV, Video & Music
+        server: my-docker
+        container: jellyfin
+        widget:
+            type: jellyfin
+            url: http://jellyfin.service.home:8096
+            key: e36688255b354508be912648d8c98f97
+            enableBlocks: true # optional, defaults to false
+            enableNowPlaying: true # optional, defaults to true
+            fields: ["movies", "series"]
+
+- Services:
+    - Transmission:
+        icon: transmission.png
+        href: http://transmission.service.home:9091
+        description: Torrent Downloader
+        server: my-docker
+        container: transmission
+        widget:
+            type: transmission
+            url: http://transmission.service.home:9091
+    - Homebridge:
+        icon: homebridge.png
+        href: http://homebridge.service.home:8581
+        description: Homekit Bridges
+        server: my-docker
+        container: homebridge
+    - Portainer:
+        icon: portainer.png
+        href: http://portainer.service.home:9000
+        description: Docker Container Management
+        server: my-docker
+        container: portainer
+        widget:
+            type: portainer
+            url: http://portainer.service.home:9000
+            env: 2
+            key: ptr_ddFbGZjsEB+e3t/rTPTXjK+gGLpve4O7h9OFBLz+/0Q=
+    - Resilio Sync:
+        icon: resiliosync.png
+        href: http://192.168.4.201:8888
+        description: BT File Syncing
+        server: my-docker
+        container: resilio-sync
+    - Dockge:
+        icon: dockge.png
+        href: http://192.168.4.201:5001
+        description: Docker Stack Manager
+        server: my-docker
+        container: dockge-dockge-1
+
+- Devices:
+    - QNAP TS-230:
+        icon: qnap.png
+        href: http://nas.home:8080
+        description: NAS Server
+    - Superhub 3.0:
+        href: http://192.168.0.1
+        description: ISP Router
+    - Resilio Sync (NAS):
+        icon: resiliosync.png
+        href: https://nas.home:14860/gui/
+        description: BT File Syncing
+    - Pi-Hole:
+        icon: pi-hole.png
+        href: http://pihole.home/admin
+        description: Ad Blocking & Local DNS
+        widget:
+            type: pihole
+            url: http://pihole.home
+            key: 4bc7a06fcc20d790bcf89f6922cd09d858f46c992026ba39d372d7f59f7c09fe
+            fields: ["queries", "blocked", "blocked_percent"]

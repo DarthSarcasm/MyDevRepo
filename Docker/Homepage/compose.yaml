@@ -1,0 +1,46 @@
+services:
+  Homepage:
+    command:
+      - "node"
+      - "server.js"
+    container_name: "Homepage"
+    entrypoint:
+      - "docker-entrypoint.sh"
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "NODE_VERSION=18.20.2"
+      - "YARN_VERSION=1.22.19"
+      - "NODE_ENV=production"
+      - "PORT=3000"
+    hostname: "4157320746b0"
+    image: "ghcr.io/gethomepage/homepage:latest"
+    ipc: "private"
+    labels:
+      org.opencontainers.image.created: "2024-04-17T08:59:23.933Z"
+      org.opencontainers.image.description: "A highly customizable homepage (or startpage / application\
+        \ dashboard) with Docker and service API integrations."
+      org.opencontainers.image.documentation: "https://github.com/gethomepage/homepage/wiki"
+      org.opencontainers.image.licenses: "GPL-3.0"
+      org.opencontainers.image.revision: "12ec1cfdcb6bd2ee94ecbb74304bae49cd744579"
+      org.opencontainers.image.source: "https://github.com/gethomepage/homepage"
+      org.opencontainers.image.title: "homepage"
+      org.opencontainers.image.url: "https://github.com/gethomepage/homepage"
+      org.opencontainers.image.version: "v0.8.12"
+    logging:
+      driver: "json-file"
+      options: {}
+    mac_address: "02:42:ac:11:00:09"
+    network_mode: "bridge"
+    ports:
+      - "3015:3000/tcp"
+    restart: "unless-stopped"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "homepage-config:/app/config"
+    working_dir: "/app"
+
+version: "3.6"
+
+volumes:
+  homepage-config:
+    external: true
