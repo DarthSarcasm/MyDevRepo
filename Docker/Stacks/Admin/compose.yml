@@ -1,0 +1,263 @@
+services:
+
+  portainer:
+
+    container_name: "portainer"
+
+    entrypoint:
+      - "/portainer"
+
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+    hostname: "7a74951babd1"
+
+    image: "portainer/portainer-ce:latest"
+
+    ipc: "private"
+
+    labels:
+      com.docker.desktop.extension.api.version: ">= 0.2.2"
+      com.docker.desktop.extension.icon: "https://portainer-io-assets.sfo2.cdn.digitaloceanspaces.com/logos/portainer.png"
+      com.docker.extension.additional-urls: "[{\"title\":\"Website\",\"url\":\"https://www.portainer.io?utm_campaign=DockerCon&utm_source=DockerDesktop\"\
+        },{\"title\":\"Documentation\",\"url\":\"https://docs.portainer.io\"},{\"title\":\"Support\",\"\
+        url\":\"https://join.slack.com/t/portainer/shared_invite/zt-txh3ljab-52QHTyjCqbe5RibC2lcjKA\"\
+        }]"
+      com.docker.extension.detailed-description: "<p data-renderer-start-pos=\"226\">Portainer&rsquo;s\
+        \ Docker Desktop extension gives you access to all of Portainer&rsquo;s rich management functionality\
+        \ within your docker desktop experience.</p><h2 data-renderer-start-pos=\"374\">With Portainer\
+        \ you can:</h2><ul><li>See all your running containers</li><li>Easily view all of your container\
+        \ logs</li><li>Console into containers</li><li>Easily deploy your code into containers using a\
+        \ simple form</li><li>Turn your YAML into custom templates for easy reuse</li></ul><h2 data-renderer-start-pos=\"\
+        660\">About Portainer&nbsp;</h2><p data-renderer-start-pos=\"680\">Portainer is the worlds&rsquo;\
+        \ most popular universal container management platform with more than 650,000 active monthly users.\
+        \ Portainer can be used to manage Docker Standalone, Kubernetes, Docker Swarm and Nomad environments\
+        \ through a single common interface. It includes a simple GitOps automation engine and a Kube\
+        \ API.&nbsp;</p><p data-renderer-start-pos=\"1006\">Portainer Business Edition is our fully supported\
+        \ commercial grade product for business-wide use. It includes all the functionality that businesses\
+        \ need to manage containers at scale. Visit <a class=\"sc-jKJlTe dPfAtb\" href=\"http://portainer.io/\"\
+        \ title=\"http://Portainer.io\" data-renderer-mark=\"true\">Portainer.io</a> to learn more about\
+        \ Portainer Business and <a class=\"sc-jKJlTe dPfAtb\" href=\"http://portainer.io/take-3?utm_campaign=DockerCon&amp;utm_source=Docker%20Desktop\"\
+        \ title=\"http://portainer.io/take-3?utm_campaign=DockerCon&amp;utm_source=Docker%20Desktop\"\
+        \ data-renderer-mark=\"true\">get 3 free nodes.</a></p>"
+      com.docker.extension.publisher-url: "https://www.portainer.io"
+      com.docker.extension.screenshots: "[{\"alt\": \"screenshot one\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-1.png\"\
+        },{\"alt\": \"screenshot two\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-2.png\"\
+        },{\"alt\": \"screenshot three\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-3.png\"\
+        },{\"alt\": \"screenshot four\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-4.png\"\
+        },{\"alt\": \"screenshot five\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-5.png\"\
+        },{\"alt\": \"screenshot six\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-6.png\"\
+        },{\"alt\": \"screenshot seven\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-7.png\"\
+        },{\"alt\": \"screenshot eight\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-8.png\"\
+        },{\"alt\": \"screenshot nine\", \"url\": \"https://portainer-io-assets.sfo2.digitaloceanspaces.com/screenshots/docker-extension-9.png\"\
+        }]"
+      io.portainer.server: "true"
+      org.opencontainers.image.description: "Docker container management made simple, with the world’s\
+        \ most popular GUI-based container management platform."
+      org.opencontainers.image.title: "Portainer"
+      org.opencontainers.image.vendor: "Portainer.io"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:0d"
+
+    network_mode: "bridge"
+
+    ports:
+      - "8000:8000/tcp"
+      - "9000:9000/tcp"
+
+    restart: "always"
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer-data:/data"
+
+    working_dir: "/"
+
+  dockge:
+    image: louislam/dockge:latest
+    restart: unless-stopped
+    ports:
+      # Host Port : Container Port
+      - 5001:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/pi/data:/app/data
+      - /home/pi/stacks:/home/pi/stacks
+    environment:
+      # Tell Dockge where is your stacks directory
+      - DOCKGE_STACKS_DIR=/home/pi/stacks
+
+  resilio-sync:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "resilio-sync"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "HOME=/root"
+      - "LANGUAGE=en_US.UTF-8"
+      - "LANG=en_US.UTF-8"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+
+    hostname: "d0aece980a30"
+
+    image: "linuxserver/resilio-sync:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- 2.7.3.1381-1-ls174 Build-date:- 2024-04-29T23:28:26+00:00"
+      maintainer: "thelamer"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2024-04-29T23:28:26+00:00"
+      org.opencontainers.image.description: "[Resilio-sync](https://www.resilio.com/individuals/) (formerly\
+        \ BitTorrent Sync) uses the BitTorrent protocol to sync files and folders between all of your\
+        \ devices. There are both free and paid versions, this container supports both. There is an official\
+        \ sync image but we created this one as it supports user mapping to simplify permissions for volumes."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-resilio-sync"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "67bd28df4a732e88f1cdb4455b324c4d0b586a26"
+      org.opencontainers.image.revision: "67bd28df4a732e88f1cdb4455b324c4d0b586a26"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-resilio-sync"
+      org.opencontainers.image.title: "Resilio-sync"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-resilio-sync/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "2.7.3.1381-1-ls174"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:0b"
+
+    network_mode: "bridge"
+
+    ports:
+      - "55555:55555/tcp"
+      - "8888:8888/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "/var/lib/docker:/sync"
+      - "sync-config:/config"
+      - "sync-downloads:/downloads"
+
+    working_dir: "/"
+
+  watchtower:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    command:
+      - "--schedule"
+      - "0 0 4 * * *"
+      - "--debug"
+      - "--remove-volumes"
+      - "--cleanup"
+
+    container_name: "watchtower"
+
+    entrypoint:
+      - "/watchtower"
+
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+    expose:
+      - "8080/tcp"
+
+    hostname: "7a52ebe93317"
+
+    image: "containrrr/watchtower:latest"
+
+    ipc: "private"
+
+    labels:
+      com.centurylinklabs.watchtower: "true"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:06"
+
+    network_mode: "bridge"
+
+    restart: "always"
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    working_dir: "/"
+
+version: "3.6"
+
+volumes:
+  portainer-data:
+    external: true
+  sync-config:
+    external: true
+  sync-downloads:
+    external: true

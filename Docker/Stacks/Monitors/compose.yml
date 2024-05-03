@@ -23,7 +23,7 @@ services:
     mac_address: "02:42:ac:11:00:03"
     network_mode: "bridge"
     ports:
-      - "0.0.0.0:3456:3000/tcp"
+      - "3456:3000/tcp"
     restart: "unless-stopped"
     user: "472"
     volumes:
@@ -47,7 +47,7 @@ services:
     mac_address: "02:42:ac:11:00:0a"
     network_mode: "bridge"
     ports:
-      - "0.0.0.0:9100:9100/tcp"
+      - "9100:9100/tcp"
     restart: "unless-stopped"
     user: "nobody"
     volumes:
@@ -75,7 +75,7 @@ services:
     mac_address: "02:42:ac:11:00:0e"
     network_mode: "bridge"
     ports:
-      - "0.0.0.0:9200:9090/tcp"
+      - "9200:9090/tcp"
     restart: "unless-stopped"
     user: "nobody"
     volumes:
@@ -113,7 +113,7 @@ services:
     mac_address: "02:42:ac:11:00:02"
     network_mode: "bridge"
     ports:
-      - "0.0.0.0:3001:3001/tcp"
+      - "3001:3001/tcp"
     restart: "always"
     volumes:
       - "uptime-kuma-data:/app/data"
