@@ -1,9 +1,0 @@
-version: "3.6"
-services:
-  node_exporter:
-    expose:
-      - "9100/tcp"
-    image: "quay.io/prometheus/node-exporter:latest"
-    restart: "unless-stopped"
-    volumes:
-      - "/:/host:ro"
