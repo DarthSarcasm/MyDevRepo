@@ -84,6 +84,7 @@ services:
     working_dir: "/prometheus"
 
   dozzle:
+    container_name: "dozzle"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
