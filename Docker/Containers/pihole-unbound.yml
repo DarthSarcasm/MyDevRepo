@@ -1,0 +1,70 @@
+services:
+  pihole-unbound:
+
+    container_name: "pihole-unbound"
+
+    entrypoint:
+      - "/bin/bash"
+      - "-c"
+      - "./s6-init"
+
+    environment:
+      - "ServerIP=192.168.4.201"
+      - "TZ=Europe\\London"
+      - "DNSSEC=true"
+      - "DNS1=127.0.0.1#5335"
+      - "DNS2=127.0.0.1#5335"
+      - "PATH=/opt/pihole:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "phpver=php"
+      - "PHP_ERROR_LOG=/var/log/lighttpd/error-pihole.log"
+      - "IPv6=True"
+      - "S6_KEEP_ENV=1"
+      - "S6_BEHAVIOUR_IF_STAGE2_FAILS=2"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "FTLCONF_LOCAL_IPV4=0.0.0.0"
+      - "FTL_CMD=no-daemon"
+      - "DNSMASQ_USER=pihole"
+
+    hostname: "80d71e1594b1"
+
+    image: "cbcrowe/pihole-unbound:latest"
+
+    ipc: "private"
+
+    labels:
+      org.opencontainers.image.created: "2024-03-31T18:49:55.971Z"
+      org.opencontainers.image.description: "Pi-hole in a docker container"
+      org.opencontainers.image.licenses: "NOASSERTION"
+      org.opencontainers.image.revision: "91ff5662c4153f24be7bf4db548e7e015b60b02f"
+      org.opencontainers.image.source: "https://github.com/pi-hole/docker-pi-hole"
+      org.opencontainers.image.title: "docker-pi-hole"
+      org.opencontainers.image.url: "https://github.com/pi-hole/docker-pi-hole"
+      org.opencontainers.image.version: "2024.03.2"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    mac_address: "02:42:ac:11:00:0f"
+
+    network_mode: "bridge"
+
+    ports:
+      - "4443:443/tcp"
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "1010:80/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "pihole-config:/etc/pihole"
+      - "pihole-dns:/etc/dnsmasq.d"
+
+version: "3.6"
+
+volumes:
+  pihole-config:
+    external: true
+  pihole-dns:
+    external: true
