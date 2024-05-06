@@ -12,6 +12,7 @@ services:
     ports:
       - 6881:6881
       - 6881:6881/udp
+      # Following ports are the ones we need to open for external container connections
       - 8085:8085 # qbittorrent
       - 9117:9117 # Jackett
       - 8989:8989 # Sonarr
