@@ -15,9 +15,9 @@ ansible-playbook -i $ANSIBLE_INVENTORY -e "scripts='$UNIX_SCRIPT_PATH/General'" 
 # Configure zsh shell
 ansible-playbook -i $ANSIBLE_INVENTORY -e "scripts='$UNIX_SCRIPT_PATH/General'" $ANSIBLE_PLAYBOOKS/configure_zsh.yml
 
-# That's the default stuff done - now on to the specific bots...
+# That's the default stuff done - now on to the specific bits...
 
 # Install and configure Docker
-ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/configure_docker.yml
+ansible-playbook -i $ANSIBLE_INVENTORY -e "nodes=rpi_build" $ANSIBLE_PLAYBOOKS/configure_docker.yml
 # Deploy basic admin containers
-ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOKS/basic_containers.yml
+ansible-playbook -i $ANSIBLE_INVENTORY -e "nodes=rpi_build" $ANSIBLE_PLAYBOOKS/basic_containers.yml
