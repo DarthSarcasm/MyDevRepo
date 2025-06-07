@@ -1,0 +1,154 @@
+services:
+  noip-duc:
+    container_name: noip-duc
+    entrypoint:
+      - /usr/bin/noip-duc
+    environment:
+      - NOIP_USERNAME=darth.sarcasm@gmail.com
+      - NOIP_PASSWORD=jnptNwYJSbA68g
+      - NOIP_HOSTNAMES=all.ddnskey.com
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    hostname: 38c6610d99d5
+    image: noipcom/noip-duc
+    ipc: private
+    logging:
+      driver: json-file
+      options: {}
+    mac_address: aa:d0:19:ba:5b:52
+    network_mode: bridge
+  pihole-unbound:
+    container_name: pihole-unbound
+    entrypoint:
+      - /bin/bash
+      - -c
+      - ./s6-init
+    environment:
+      - ServerIP=192.168.4.201
+      - TZ=Europe\London
+      - DNSSEC=true
+      - DNS1=127.0.0.1#5335
+      - DNS2=127.0.0.1#5335
+      - PATH=/opt/pihole:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - phpver=php
+      - PHP_ERROR_LOG=/var/log/lighttpd/error-pihole.log
+      - IPv6=True
+      - S6_KEEP_ENV=1
+      - S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+      - S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
+      - FTLCONF_LOCAL_IPV4=0.0.0.0
+      - FTL_CMD=no-daemon
+      - DNSMASQ_USER=pihole
+    hostname: atlaspi
+    image: cbcrowe/pihole-unbound:latest
+    ipc: private
+    labels:
+      org.opencontainers.image.created: 2024-03-31T18:49:55.971Z
+      org.opencontainers.image.description: Pi-hole in a docker container
+      org.opencontainers.image.licenses: NOASSERTION
+      org.opencontainers.image.revision: 91ff5662c4153f24be7bf4db548e7e015b60b02f
+      org.opencontainers.image.source: https://github.com/pi-hole/docker-pi-hole
+      org.opencontainers.image.title: docker-pi-hole
+      org.opencontainers.image.url: https://github.com/pi-hole/docker-pi-hole
+      org.opencontainers.image.version: 2024.03.2
+    logging:
+      driver: json-file
+      options: {}
+    mac_address: 2a:b5:c1:2d:ed:86
+    network_mode: bridge
+    ports:
+      - 4443:443/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 1010:80/tcp
+    restart: unless-stopped
+    volumes:
+      - pihole-config:/etc/pihole
+      - pihole-dns:/etc/dnsmasq.d
+  pihole-v6:
+    # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+    container_name: pihole-v6
+    image: pihole/pihole:latest
+    hostname: atlaspi-v6
+    ports:
+      # DNS Ports
+      - 54:53/tcp
+      - 54:53/udp
+      - 80:80/tcp
+      - 443:443/tcp
+      # Uncomment the line below if you are using Pi-hole as your DHCP server
+      #- "67:67/udp"
+      # Uncomment the line below if you are using Pi-hole as your NTP server
+      #- "123:123/udp"
+    environment:
+      # Set the appropriate timezone for your location (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g:
+      TZ: Europe/London
+      # Set a password to access the web interface. Not setting one will result in a random password being assigned
+      FTLCONF_webserver_api_password: correct horse battery staple
+      # If using Docker's default `bridge` network setting the dns listening mode should be set to 'all'
+      FTLCONF_dns_listeningMode: all
+    # Volumes store your data between container upgrades
+    volumes:
+      # For persisting Pi-hole's databases and common configuration file
+      - piholev6-config:/etc/pihole
+      # Uncomment the below if you have custom dnsmasq config files that you want to persist. Not needed for most starting fresh with Pi-hole v6. If you're upgrading from v5 you and have used this directory before, you should keep it enabled for the first v6 container start to allow for a complete migration. It can be removed afterwards. Needs environment variable FTLCONF_misc_etc_dnsmasq_d: 'true'
+      #- './etc-dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      # See https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+      # Required if you are using Pi-hole as your DHCP server, else not needed
+      - NET_ADMIN
+      - SYS_TIME
+      - SYS_NICE
+    restart: unless-stopped
+  wg-easy:
+    environment:
+      # Change Language:
+      # (Supports: en, ua, ru, tr, no, pl, fr, de, ca, es, ko, vi, nl, is, pt, chs, cht, it, th, hi)
+      - LANG=en
+      # ⚠️ Required:
+      # Change this to your host's public address
+      - WG_HOST=phoenixrising.ddns.net
+
+      # Optional:
+      # - PASSWORD_HASH='$2a$12$rWG9y3E7So.5w5UQY69fiOb7NHzT8B5bXxY6HY.QByoIm.hGv5qcy'
+      # - PORT=51821
+      # - WG_PORT=51820
+      # - WG_CONFIG_PORT=92820
+      # - WG_DEFAULT_ADDRESS=10.8.0.x
+      # - WG_DEFAULT_DNS=1.1.1.1
+      # - WG_MTU=1420
+      # - WG_ALLOWED_IPS=192.168.15.0/24, 10.0.1.0/24
+      # - WG_PERSISTENT_KEEPALIVE=25
+      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
+      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
+      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
+      # - UI_TRAFFIC_STATS=true
+      # - UI_CHART_TYPE=0 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
+
+    image: ghcr.io/wg-easy/wg-easy
+    container_name: wg-easy
+    volumes:
+      - wireguard-config:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+      # - NET_RAW # ⚠️ Uncomment if using Podman 
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+
+version: "3.6"
+volumes:
+  pihole-config:
+    external: true
+  pihole-dns:
+    external: true
+  piholev6-config:
+    external: true
+  wireguard-config:
+    external: true
+networks: {}

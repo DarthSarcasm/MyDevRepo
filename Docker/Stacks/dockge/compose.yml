@@ -1,14 +1,22 @@
 services:
   dockge:
+    container_name: dockge
     image: louislam/dockge:latest
     restart: unless-stopped
     ports:
-      # Host Port : Container Port
       - 5001:5001
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/pi/data:/app/data
       - /home/pi/stacks:/home/pi/stacks
     environment:
-      # Tell Dockge where is your stacks directory
       - DOCKGE_STACKS_DIR=/home/pi/stacks
+version: "3.6"
+volumes:
+  portainer-data:
+    external: true
+  sync-config:
+    external: true
+  sync-downloads:
+    external: true
+networks: {}
