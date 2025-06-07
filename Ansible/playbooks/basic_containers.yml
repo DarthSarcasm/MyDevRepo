@@ -29,3 +29,18 @@
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
         restart_policy: always
+
+    # Deploy Dockge
+    - name: Deploy Dockge
+      community.docker.docker_container:
+        name: Dockge
+        image: louislam/dockge:latest
+        ports:
+          - "5001:5001"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /home/pi/data:/app/data
+          - /home/pi/stacks:/home/pi/stacks
+        env:
+          DOCKGE_STACKS_DIR: "/home/pi/stacks"
+        restart_policy: always

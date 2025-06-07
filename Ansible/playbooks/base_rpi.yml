@@ -31,6 +31,22 @@
         group: pi
         mode: '0774'
 
+    - name: create stacks directory
+      file:
+        path: /home/pi/stacks
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0774'
+
+    - name: create data directory
+      file:
+        path: /home/pi/data
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0774'
+
     - name: copy server admin files
       copy:
         src: "{{ item }}"
